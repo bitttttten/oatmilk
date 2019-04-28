@@ -6,6 +6,7 @@
 babel.config.js
 .gitignore
 .prettierrc
+prettier.config.js
 tsconfig.*
 tslint.*
 jest.*
