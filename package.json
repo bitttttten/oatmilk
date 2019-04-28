@@ -16,12 +16,15 @@
         "rimraf": "^2.6.3"
     },
     "peerDependencies": {
-        "react": "^16"
+        "react": "^16.8.6"
     },
     "version": "1.0.0",
     "description": "Routing library for React",
     "repository": "https://github.com/bitttttten/oatmilk",
     "author": "bitttttten",
     "license": "MIT",
-    "private": false
+    "private": false,
+    "dependencies": {
+        "url-pattern": "^1.0.3"
+    }
 }
