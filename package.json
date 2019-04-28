@@ -26,5 +26,8 @@
     "private": false,
     "dependencies": {
         "url-pattern": "^1.0.3"
+    },
+    "devDependencies": {
+        "@types/react": "^16.8.14"
     }
 }

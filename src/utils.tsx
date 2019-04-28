@@ -1,7 +1,7 @@
 import UrlPattern from 'url-pattern'
 import { IRoute, TRouteState, TRouteName, TURL, TRoutePath } from './types'
 
-export function getRouteFromUrl(routes: IRoute[], url?: TURL) {
+export function getRouteFromUrl(routes: IRoute[], url: TURL) {
     return (
         routes.find(({ path }) => new UrlPattern(path).match(url)) ||
         getRouteByName(routes, 'notFound')

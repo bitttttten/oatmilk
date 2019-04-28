@@ -1,9 +1,9 @@
 import React, { MouseEvent, useContext } from 'react'
-import { RouterContext } from './Router'
+import { Context } from './Router'
 import { ILinkProps } from './types'
 
 export default function Link({ onClick: onClickFromUser, children, ...props }: ILinkProps) {
-    const { goTo } = useContext(RouterContext)
+    const { goTo } = useContext(Context)
     const onClick = (e: MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault()
 		goTo(props.routeName, props.state)

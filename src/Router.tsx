@@ -1,7 +1,7 @@
 import { createContext, useMemo, useCallback, useState, useEffect } from 'react'
 import {
-    IRouterContext,
-    PRouterProvider,
+    IContext,
+    IProvider,
     TRouteName,
     TRouteState,
     IRoute,
@@ -15,13 +15,13 @@ import {
 
 const SERVER = typeof window === 'undefined'
 
-const RouterContext = createContext<IRouterContext>(null!)
+const Context = createContext<IContext>(null!)
 
-function RouterProvider({
+function Provider({
     children,
     routes,
     url = window.location.pathname,
-}: PRouterProvider) {
+}: IProvider) {
     if (!url && SERVER) {
         throw new Error('You must pass a URL when rendering on the server.')
     }
@@ -89,10 +89,10 @@ function RouterProvider({
     )
 
     return (
-        <RouterContext.Provider value={value}>
+        <Context.Provider value={value}>
             {children}
-        </RouterContext.Provider>
+        </Context.Provider>
     )
 }
 
-export { RouterProvider, RouterContext }
+export { Provider, Context }

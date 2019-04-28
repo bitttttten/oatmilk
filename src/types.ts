@@ -1,4 +1,4 @@
-import { HTMLProps, ComponentType } from "react"
+import { HTMLProps, ComponentType } from 'react'
 
 export declare type TText = string
 export declare type TRouteState = object
@@ -12,18 +12,18 @@ export declare interface IRoute {
 	view: ComponentType
 }
 
-export declare interface PRouterProvider extends HTMLProps<HTMLElement> {
+export declare interface IProvider extends HTMLProps<HTMLElement> {
 	routes: IRoute[],
 	url?: TURL
 }
 
-export declare interface IRouterContext {
+export declare interface IContext {
 	goTo: (toRouteName: TRouteName, toState: TRouteState) => void
 	route: IRoute
 	state: TRouteState
 }
 
-export declare interface ILinkProps extends Omit<HTMLProps<HTMLAnchorElement>, "href"> {
-    routeName: IRoute['name']
-    state?: TRouteState
+export declare interface ILinkProps extends Pick<HTMLProps<HTMLAnchorElement>, Exclude<keyof HTMLProps<HTMLAnchorElement>, 'href'>> {
+	routeName: IRoute['name']
+	state?: TRouteState
 }
