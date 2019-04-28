@@ -27,7 +27,7 @@ function Provider({
     }
 
     const [route, setRoute] = useState<IRoute>(() =>
-        getRouteFromUrl(routes, url),
+        getRouteFromUrl(routes, url)!,
     )
 
     const [state, setState] = useState<TRouteState>(() =>
@@ -36,7 +36,6 @@ function Provider({
 
     const goTo = useCallback(
         (toRouteName: TRouteName, toState: TRouteState) => {
-            console.log(toRouteName, toState)
             const toRoute = getRouteByName(routes, toRouteName)
 
             if (!toRoute) {
@@ -45,7 +44,8 @@ function Provider({
 
             setRoute(toRoute)
             setState(toState)
-        },
+		},
+		[routes]
     )
 
     useEffect(() => {
@@ -69,7 +69,7 @@ function Provider({
     useEffect(() => {
         if (SERVER) return
 
-        function onUserNavigating({ state: historyState }) {
+        function onUserNavigating({ state: historyState }: PopStateEvent) {
             goTo(historyState.routeName, historyState.state)
         }
 
