@@ -35,7 +35,7 @@ function Provider({
     )
 
     const goTo = useCallback(
-        (toRouteName: TRouteName, toState: TRouteState) => {
+        (toRouteName: TRouteName, toState?: TRouteState) => {
             const toRoute = getRouteByName(routes, toRouteName)
 
             if (!toRoute) {
@@ -43,7 +43,7 @@ function Provider({
             }
 
             setRoute(toRoute)
-            setState(toState)
+            setState(toState || {})
 		},
 		[routes]
     )

@@ -18,7 +18,7 @@ export declare interface IProvider extends HTMLProps<HTMLElement> {
 }
 
 export declare interface IContext {
-	goTo: (toRouteName: TRouteName, toState: TRouteState) => void
+	goTo: (toRouteName: TRouteName, toState?: TRouteState) => void
 	route: IRoute
 	state: TRouteState
 }
