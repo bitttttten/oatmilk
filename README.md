@@ -7,9 +7,13 @@
 oatmilk is a minimal, decoupled, routing library for React.
 
 ✅ SSR Friendly
+
 ✅ React friendly API
+
 ✅ Flexible
-✅ Easier to test
+
+✅ Testable
+
 ✅ [Decoupled](#decoupled)
 
 ## Instructions
@@ -88,3 +92,7 @@ function Navigation() {
 Routes are state first, and everything else is derived from state which gives you less redundancy. The current route is held in state, and effects (like updating the URL are managed after the fact.
 
 Decoupling your state and data fetching from your view helps you keep a declarative approach to your codebase. It also makes reasoning and testing simplier, and greatly reduces the complexity of server rendering and pre-fetching data.
+
+## Credits
+
+Thanks to [probablyup](https://github.com/probablyup)'s [buttermilk](https://github.com/probablyup/buttermilk), which was a project I found after writing the first draft of oatmilk which heavily inspired a lot of changes and inspiration.. and of course the name.
