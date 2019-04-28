@@ -89,7 +89,7 @@ function Navigation() {
 
 ## Decoupled
 
-oatmilk is state first, and everything else is derived from this. The current route is held in state and effects, like updating the URL, are managed after the fact.
+oatmilk is state first, and everything else is derived from this. The current route is held in state and effects like updating the URL, are managed after the fact.
 
 Decoupling your state and data fetching from your view helps you keep a declarative approach to your codebase. It also makes reasoning and testing simplier, and greatly reduces the complexity of server rendering and pre-fetching data.
 
