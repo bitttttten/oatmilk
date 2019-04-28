@@ -1,11 +1,5 @@
 import { createContext, useMemo, useCallback, useState, useEffect } from 'react'
-import {
-    IContext,
-    IProvider,
-    TRouteName,
-    TRouteState,
-    IRoute,
-} from './types'
+import { IContext, IProvider, TRouteName, TRouteState, IRoute } from './types'
 import {
     getRouteFromUrl,
     getStateFromUrl,
@@ -21,13 +15,15 @@ function Provider({
     children,
     routes,
     url = window.location.pathname,
+    onBeforeExit,
+	onEnter,
 }: IProvider) {
     if (!url && SERVER) {
         throw new Error('You must pass a URL when rendering on the server.')
     }
 
-    const [route, setRoute] = useState<IRoute>(() =>
-        getRouteFromUrl(routes, url)!,
+    const [route, setRoute] = useState<IRoute>(
+        () => getRouteFromUrl(routes, url)!,
     )
 
     const [state, setState] = useState<TRouteState>(() =>
@@ -35,17 +31,29 @@ function Provider({
     )
 
     const goTo = useCallback(
-        (toRouteName: TRouteName, toState?: TRouteState) => {
+        async (toRouteName: TRouteName, toState: TRouteState = {}) => {
             const toRoute = getRouteByName(routes, toRouteName)
 
             if (!toRoute) {
                 throw new Error(`Route ${toRouteName} does not exist`)
             }
 
+            await Promise.all([
+                route.onBeforeExit && route.onBeforeExit(route, state),
+                onBeforeExit && onBeforeExit(route, state),
+            ])
+
             setRoute(toRoute)
-            setState(toState || {})
-		},
-		[routes]
+            setState(toState)
+
+            if (onEnter) {
+                onEnter(toRoute, toState)
+            }
+            if (route.onEnter) {
+                route.onEnter(route, state)
+            }
+        },
+        [routes],
     )
 
     useEffect(() => {
@@ -88,11 +96,7 @@ function Provider({
         [],
     )
 
-    return (
-        <Context.Provider value={value}>
-            {children}
-        </Context.Provider>
-    )
+    return <Context.Provider value={value}>{children}</Context.Provider>
 }
 
 export { Provider, Context }

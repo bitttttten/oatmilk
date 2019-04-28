@@ -6,15 +6,21 @@ export declare type TRouteName = string
 export declare type TRoutePath = string
 export declare type TURL = string
 
+export declare type THook = (toRouteName: IRoute, toState?: TRouteState) => Promise<void>
+
 export declare interface IRoute {
 	name: TRouteName
 	path: TRoutePath
 	view: ComponentType
+	onBeforeExit?: THook
+	onEnter?: THook
 }
 
 export declare interface IProvider extends HTMLProps<HTMLElement> {
 	routes: IRoute[],
-	url?: TURL
+	url?: TURL,
+	onBeforeExit?: THook
+	onEnter?: THook
 }
 
 export declare interface IContext {
