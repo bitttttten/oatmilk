@@ -10,7 +10,6 @@ import {
     IProvider,
     TRouteName,
     TRouteState,
-    IRoute,
     IData,
 } from './types'
 import {
@@ -85,6 +84,10 @@ export function Provider({
         },
         [],
     )
+
+    useEffect(() => {
+        console.log(route)
+    })
 
     useEffect(() => {
         if (SERVER) return
