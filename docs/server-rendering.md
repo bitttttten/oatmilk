@@ -56,21 +56,24 @@ export const routes: IRoutes = [
         name: 'user',
         path: '/user/:id',
         view: HomePageView,
-        onEnter: async (_, state) => {
+        onEnter: async (route: IRoute, state: TRouteState) => {
+            // see how the state object is derived from the path
+            // as state.id came from `/user/:id`
             await UserAPI.fetchById(state.id)
         },
     },
 ]
 ```
 
-And when rendering your view, await on the route's onEnter hook:
+And when rendering your view, await on the result of `getMatchFromUrl` which will call the `onEnter` hook of the matched route or `Promise.resolve` if none is present.
 
 ```js server/controller/web.tsx
 const { Provider, getMatchFromUrl } = require('oatmilk')
 const { routes, App } = require('./App')
 
 module.exports = async function webController(url) {
-    // get the current route
+    // this will call the 'onEnter' hook of the matched route
+    // or resolve if no transition hook was present
     await getMatchFromUrl(routes, url)
 
     // use the provider, inject the correct url
