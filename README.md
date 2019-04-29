@@ -6,6 +6,8 @@
 
 ## Introduction
 
+🚨 this library is not yet released, and still on version 1 🚨
+
 oatmilk is a minimal, decoupled, routing library for React.
 
 ✅ SSR Friendly
