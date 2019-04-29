@@ -85,9 +85,16 @@ export function Provider({
         [],
     )
 
-    console.log('1', route)
     useEffect(() => {
-        console.log(route)
+        if (SERVER) return
+
+        if (onEnter) {
+            onEnter(route, state)
+        }
+        if (route.onEnter) {
+            const method = hookReducer || route.onEnter
+            method(route, state)
+        }
     })
 
     useEffect(() => {
