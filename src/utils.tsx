@@ -22,8 +22,26 @@ export function deriveUrlFromPathAndState(
     return new UrlPattern(path).stringify(state)
 }
 
-export function getMatchFromUrl(routes: IRoute[], url: TURL): Promise<void> {
-    const { onEnter, ...route } = getRouteFromUrl(routes, url)!
+function getRouteAndStateFromUrl(routes: IRoute[], url: TURL) {
+    const route = getRouteFromUrl(routes, url)!
     const state = getStateFromUrl(route.path, url)
+    return { route, state }
+}
+
+export function getMatchFromUrl(routes: IRoute[], url: TURL): Promise<void> {
+    const {
+        route: { onEnter, ...route },
+        state,
+    } = getRouteAndStateFromUrl(routes, url)
     return onEnter ? onEnter(route, state) : Promise.resolve()
+}
+
+export function getMatchWithReducerFromUrl(reducer: any) {
+    return function getMatchFromUrl(
+        routes: IRoute[],
+        url: TURL,
+    ): Promise<void> {
+        const { route, state } = getRouteAndStateFromUrl(routes, url)
+        return reducer(route, state)
+    }
 }

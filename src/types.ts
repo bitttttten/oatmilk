@@ -6,14 +6,15 @@ export declare type TRouteName = string
 export declare type TRoutePath = string
 export declare type TURL = string
 
-export declare type THook = (toRouteName: IRoute, toState?: TRouteState) => Promise<void>
+export declare type THookWithReducer<T> = (toRoute: IRoute, toState?: TRouteState, ...T: any[]) => Promise<void>
+export declare type THook = (toRoute: IRoute, toState?: TRouteState) => Promise<void>
 
-export declare interface IRoute {
+export declare interface IRoute<T = null> {
 	name: TRouteName
 	path: TRoutePath
 	view: ComponentType
 	onBeforeExit?: THook
-	onEnter?: THook
+	onEnter?: THookWithReducer<T>
 }
 
 export declare interface IData {
