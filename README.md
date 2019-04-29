@@ -16,6 +16,12 @@ oatmilk is a minimal, decoupled, routing library for React.
 
 ✅ [Decoupled](#decoupled)
 
+## Docs
+
+-   [Data fetching and transition hooks](https://github.com/bitttttten/oatmilk/blob/master/docs/transition-hooks.md)
+-   [Server rendering](https://github.com/bitttttten/oatmilk/blob/master/docs/server-rendering.md)
+-   [Typescript](https://github.com/bitttttten/oatmilk/blob/master/docs/typescript.md)
+
 ## Instructions
 
 ### Install
@@ -93,12 +99,6 @@ function Navigation() {
 oatmilk is state first, and everything else is derived from this. The current route is held in state and effects like updating the URL, are managed after the fact.
 
 Decoupling your state and data fetching from your view helps you keep a declarative approach to your codebase. It also makes reasoning and testing simplier, and greatly reduces the complexity of server rendering and pre-fetching data.
-
-## Docs
-
--   [Data fetching and transition hooks](https://github.com/bitttttten/oatmilk/blob/master/docs/transition-hooks.md)
--   [Server rendering](https://github.com/bitttttten/oatmilk/blob/master/docs/server-rendering.md)
--   [Typescript](https://github.com/bitttttten/oatmilk/blob/master/docs/typescript.md)
 
 ## Credits
 
