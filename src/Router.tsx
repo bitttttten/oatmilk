@@ -1,5 +1,18 @@
-import React, { createContext, useMemo, useCallback, useState, useEffect } from 'react'
-import { IContext, IProvider, TRouteName, TRouteState, IRoute, IData } from './types'
+import React, {
+    createContext,
+    useMemo,
+    useCallback,
+    useState,
+    useEffect,
+} from 'react'
+import {
+    IContext,
+    IProvider,
+    TRouteName,
+    TRouteState,
+    IRoute,
+    IData,
+} from './types'
 import {
     getRouteFromUrl,
     getStateFromUrl,
@@ -30,7 +43,7 @@ export function Provider({
 
     const [{ route, state }, setData] = useState<IData>({
         route: firstRoute!,
-        state: firstRoute ? getStateFromUrl(firstRoute.path, url) : {}
+        state: firstRoute ? getStateFromUrl(firstRoute.path, url) : {},
     })
 
     const goTo = useCallback(
@@ -87,7 +100,11 @@ export function Provider({
         if (url !== window.location.pathname) {
             window.history.pushState(historyState, '', url)
         } else {
-            window.history.replaceState(historyState, '', `${url}${window.location.search}${window.location.hash}`)
+            window.history.replaceState(
+                historyState,
+                '',
+                `${url}${window.location.search}${window.location.hash}`,
+            )
         }
     }, [route.name, state])
 
