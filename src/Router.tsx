@@ -85,6 +85,7 @@ export function Provider({
         [],
     )
 
+    console.log('1', route)
     useEffect(() => {
         console.log(route)
     })
