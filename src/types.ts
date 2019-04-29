@@ -1,7 +1,7 @@
 import { HTMLProps, ComponentType } from 'react'
 
 export declare type TText = string
-export declare type TRouteState = object
+export declare type TRouteState = any
 export declare type TRouteName = string
 export declare type TRoutePath = string
 export declare type TURL = string
