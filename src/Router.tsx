@@ -61,11 +61,11 @@ export function Provider({
             ])
 
             if (onEnter) {
-                const method = hookReducer || onEnter
-                method(toRoute, toState)
+                onEnter(toRoute, toState)
             }
             if (route.onEnter) {
-                route.onEnter(route, state)
+                const method = hookReducer || route.onEnter
+                method(toRoute, toState)
             }
 
             setData({ route: toRoute, state: toState })
