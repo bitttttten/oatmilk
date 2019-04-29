@@ -26,6 +26,7 @@ oatmilk is a minimal, decoupled, routing library for React.
 
 ```js App.tsx
 import oatmilk from 'oatmilk'
+import { IRoutes } from 'oatmilk/dist/types'
 
 const routes: oatmilk.IRoutes = [
     {
@@ -46,9 +47,9 @@ const routes: oatmilk.IRoutes = [
 ]
 
 ReactDOM.render(
-    <oatmilk.RouterProvider routes={routes}>
+    <oatmilk.Provider routes={routes}>
         <App />
-    </oatmilk.RouterProvider>,
+    </oatmilk.Provider>,
     document.getElementById('root'),
 )
 ```
