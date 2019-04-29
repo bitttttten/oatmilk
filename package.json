@@ -1,13 +1,14 @@
 {
     "name": "oatmilk",
     "main": "dist/index.js",
-    "typings": "dist/types.d.ts",
+    "types": "dist/index.d.ts",
     "source": "src/index.tsx",
     "scripts": {
         "build": "rimraf dist/ && microbundle --external react --jsx react",
         "test": "soulpicks-react-scripts test"
     },
     "devDependencies": {
+        "@soulpicks/react-scripts": "^2.29.0",
         "@types/jest": "^24.0.11",
         "@types/react": "^16.8.14",
         "jest-dom": "^3.1.3",
