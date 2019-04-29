@@ -1,9 +1,5 @@
 # Typescript
 
-## Work in progress
-
-This feature is incomplete
-
 ### 1. Reference types
 
 Make sure you reference the oatmilk library somewhere in a `.d.ts` file. With create-react-app, this should be `src/react-app-env.d.ts`. After that you should be able to import the types and use them from inside your codebase.
@@ -13,9 +9,9 @@ Make sure you reference the oatmilk library somewhere in a `.d.ts` file. With cr
 ```
 
 ```js routes.tsx
-import { IRoute } from 'oatmilk'
+import { IRoute } from 'oatmilk/dist/types'
 
-export const routes: IRoutes = [
+export const routes: IRoute[] = [
     {
         name: 'home',
         path: '/',
@@ -23,3 +19,5 @@ export const routes: IRoutes = [
     },
 ]
 ```
+
+And that should be it!
