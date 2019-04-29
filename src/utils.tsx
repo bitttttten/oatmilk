@@ -21,3 +21,9 @@ export function deriveUrlFromPathAndState(
 ) {
     return new UrlPattern(path).stringify(state)
 }
+
+export function getMatchFromUrl(routes: IRoute[], url: TURL): Promise<void> {
+    const { onEnter, ...route } = getRouteFromUrl(routes, url)!
+    const state = getStateFromUrl(route.path, url)
+    return onEnter ? onEnter(route, state) : Promise.resolve()
+}

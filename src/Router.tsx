@@ -100,6 +100,7 @@ export function Provider({
         if (url !== window.location.pathname) {
             window.history.pushState(historyState, '', url)
         } else {
+            // ensure's that the query params an hash are kept on first page load
             window.history.replaceState(
                 historyState,
                 '',

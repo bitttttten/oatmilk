@@ -97,6 +97,7 @@ Decoupling your state and data fetching from your view helps you keep a declarat
 
 -   [Data fetching and transition hooks](https://github.com/bitttttten/oatmilk/blob/master/docs/transition-hooks.md)
 -   [Server rendering](https://github.com/bitttttten/oatmilk/blob/master/docs/server-rendering.md)
+-   [Typescript](https://github.com/bitttttten/oatmilk/blob/master/docs/typescript.md)
 
 ## Credits
 
