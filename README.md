@@ -4,6 +4,10 @@
 
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
+🚨 this library is not yet released, and still on version 1 🚨
+
+## Introduction
+
 oatmilk is a minimal, decoupled, routing library for React.
 
 ✅ SSR Friendly
