@@ -1,6 +1,6 @@
 # Typescript
 
-### 1. Reference types
+### Work in progress
 
 Make sure you reference the oatmilk library somewhere in a `.d.ts` file. With create-react-app, this should be `src/react-app-env.d.ts`. After that you should be able to import the types and use them from inside your codebase.
 
