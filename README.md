@@ -1,4 +1,4 @@
-<img src="docs/img/oatmilk-cropped.png" alt="oatmilk" height="220" />
+<img src="docs/img/oatmilk-cropped.png" alt="oatmilk" width="280" height="auto" />
 
 # oatmilk
 
