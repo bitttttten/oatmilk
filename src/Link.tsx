@@ -1,4 +1,4 @@
-import { MouseEvent, useContext } from 'react'
+import React, { MouseEvent, useContext } from 'react'
 import { Context } from './Router'
 import { ILinkProps } from './types'
 
