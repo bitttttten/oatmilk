@@ -19,7 +19,7 @@
     "peerDependencies": {
         "react": "^16.8.6"
     },
-    "version": "1.8.0",
+    "version": "1.8.1",
     "description": "Routing library for React",
     "repository": "https://github.com/bitttttten/oatmilk",
     "author": "bitttttten",
