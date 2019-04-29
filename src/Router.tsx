@@ -87,7 +87,7 @@ export function Provider({
         if (url !== window.location.pathname) {
             window.history.pushState(historyState, '', url)
         } else {
-            window.history.replaceState(historyState, '', url)
+            window.history.replaceState(historyState, '', `${url}${window.location.search}${window.location.hash}`)
         }
     }, [route.name, state])
 

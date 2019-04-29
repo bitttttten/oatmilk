@@ -1,15 +1,18 @@
 # Server rendering
 
-..is really simple. Just send in the URL.
+..is really simple. Just send in the path as `url` into the Provider.
 
 Here are some really simplified examples:
 
 ## hapijs
 
+hapijs includes query params on it's url object. oatmilk is only suited to parse the path of a URL, so you must first strip the query parameters out.
+
 ```js
 exports.method = function method(request, h) {
+    const url = request.url.path.split('?')[0]
     return (
-        <oatmilk.Provider url={request.url.path} routes={routes}>
+        <oatmilk.Provider url={url} routes={routes}>
             <App />
         </oatmilk.Provider>
     )
@@ -18,17 +21,12 @@ exports.method = function method(request, h) {
 
 ## lambda
 
-```js
-exports.handler = function handler({ queryStringParameters, path }) {
-    // lambdas strip the query params from the path into an object
-    // so you must build them back into a string with the path
-    const qs = Object.keys(event.queryStringParameters).map(
-        k => `${k}=${event.queryStringParameters[k]}`,
-    )
-    const suffix = qs.length ? `?${qs.join('&')}` : ''
+Please be aware that if you are using lambdas, they strip the query params from the path into an object. This is actually okay, since oatmilk is only suited to parse the path of the URL.
 
+```js
+exports.handler = function handler({ path }) {
     return (
-        <oatmilk.Provider url={`${path}${suffix}`} routes={routes}>
+        <oatmilk.Provider url={path} routes={routes}>
             <App />
         </oatmilk.Provider>
     )
