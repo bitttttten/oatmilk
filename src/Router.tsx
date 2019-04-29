@@ -30,6 +30,7 @@ export function Provider({
     url = window.location.pathname,
     onBeforeExit,
     onEnter,
+    hookReducer,
 }: IProvider) {
     if (!url && SERVER) {
         throw new Error('You must pass a URL when rendering on the server.')
@@ -59,14 +60,15 @@ export function Provider({
                 onBeforeExit && onBeforeExit(route, state),
             ])
 
-            setData({ route: toRoute, state: toState })
-
             if (onEnter) {
-                onEnter(toRoute, toState)
+                const method = hookReducer || onEnter
+                method(toRoute, toState)
             }
             if (route.onEnter) {
                 route.onEnter(route, state)
             }
+
+            setData({ route: toRoute, state: toState })
         },
         [],
     )
