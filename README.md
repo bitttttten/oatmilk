@@ -10,8 +10,6 @@ oatmilk is a minimal, decoupled, routing library for React.
 
 ✅ SSR Friendly
 
-✅ React friendly API
-
 ✅ Flexible
 
 ✅ Testable

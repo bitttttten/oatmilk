@@ -1,19 +1,21 @@
-import React, { MouseEvent, useContext } from 'react'
+import { MouseEvent, useContext } from 'react'
 import { Context } from './Router'
 import { ILinkProps } from './types'
 
-export default function Link({ onClick: onClickFromUser, children, ...props }: ILinkProps) {
-    const { goTo } = useContext(Context)
+export function Link({ onClick: onClickFromUser, children, routeName, state, ...props }: ILinkProps) {
+    const { goTo, getHref } = useContext(Context)
+
     const onClick = (e: MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault()
-		goTo(props.routeName, props.state)
+		goTo(routeName, state)
 		if (typeof onClickFromUser === 'function') {
 			onClickFromUser(e)
 		}
     }
+    const href = getHref(routeName, state)
 
     return (
-        <a {...props} href={props.routeName} onClick={onClick}>
+        <a {...props} href={href} onClick={onClick}>
             {children}
         </a>
     )

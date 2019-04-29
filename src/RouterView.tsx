@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
-import { RouterContext } from './Router'
+import { useContext } from 'react'
+import { Context } from './Router'
 
-export default function RouterView() {
-    const { route } = useContext(RouterContext)
+export function RouterView() {
+    const { route } = useContext(Context)
 
     if (!route || !route.view) {
         return null

@@ -16,6 +16,11 @@ export declare interface IRoute {
 	onEnter?: THook
 }
 
+export declare interface IData {
+	route: IRoute
+	state: TRouteState
+}
+
 export declare interface IProvider extends HTMLProps<HTMLElement> {
 	routes: IRoute[],
 	url?: TURL,
@@ -25,6 +30,7 @@ export declare interface IProvider extends HTMLProps<HTMLElement> {
 
 export declare interface IContext {
 	goTo: (toRouteName: TRouteName, toState?: TRouteState) => void
+    getHref: (routeName: string, state?: TRouteState) => string
 	route: IRoute
 	state: TRouteState
 }
