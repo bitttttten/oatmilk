@@ -11,7 +11,7 @@ export function getRouteByName(routes: IRoute[], routeName: TRouteName) {
     return routes.find(({ name }) => name === routeName)
 }
 
-export function getStateFromUrl(path: TRoutePath, url: TURL) {
+export function getStateFromUrl(path: TRoutePath, url: TURL): TRouteState {
     return new UrlPattern(path).match(url)
 }
 
