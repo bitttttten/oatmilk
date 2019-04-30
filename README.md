@@ -20,9 +20,9 @@ oatmilk is a minimal, decoupled, routing library for React.
 
 ## Docs
 
--   [Data fetching and transition hooks](https://github.com/bitttttten/oatmilk/blob/master/docs/transition-hooks.md)
 -   [Server rendering](https://github.com/bitttttten/oatmilk/blob/master/docs/server-rendering.md)
 -   [Typescript](https://github.com/bitttttten/oatmilk/blob/master/docs/typescript.md)
+-   [Using Context](https://github.com/bitttttten/oatmilk/blob/master/docs/using-context.md)
 
 ## Instructions
 
@@ -93,6 +93,54 @@ function Navigation() {
         </>
     )
 }
+```
+
+### Transition Hooks
+
+oatmilk has 2 transition hooks: onEnter, and onBeforeEnter. You can use it for the global routing context, and also for a single route's context.
+
+```js routes.tsx
+import { IRoute } from 'oatmilk'
+
+export const routes: IRoutes = [
+    {
+        name: 'home',
+        path: '/',
+        view: HomePage,
+        onEnter: (route, state) => {
+            console.log('I am called as you enter only the home route')
+            ArticlesStore.fetchTrendingArticles()
+            TodoStore.fetchTodos()
+        },
+        onExit: (route, state) => {
+            console.log('I am called as you exit only the home route')
+        },
+    },
+    {
+        name: 'user'
+        path: '/user/:slug',
+        view: UserPage,
+        onEnter: (route, state) => {
+            UserStore.fetchUser(state.id)
+        },
+    },
+]
+
+function onEnter(route, state) {
+    console.log('I am called as you enter any route')
+    analytics.logPageView()
+}
+
+function onExit(route, state) {
+    console.log('I am called as you exit any route')
+}
+
+ReactDOM.render(
+    <oatmilk.RouterProvider routes={routes} onEnter={onEnter} onExit={onExit}>
+        <App />
+    </oatmilk.RouterProvider>,
+    document.getElementById('root'),
+)
 ```
 
 ## Decoupled

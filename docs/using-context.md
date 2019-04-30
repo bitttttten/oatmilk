@@ -1,4 +1,4 @@
-# Flexibility
+# Using oatmilk's Context
 
 oatmilk's was written with the intent to be simple, and flexible. In regards to state, it has no API of it's own as under the hood it uses context, so if you are looking to customise your app per-route you are encouraged to use the context and derive your view from the state inside it.
 
