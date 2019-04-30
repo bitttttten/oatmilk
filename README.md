@@ -95,6 +95,8 @@ function Navigation() {
 }
 ```
 
+## API
+
 ### Transition Hooks
 
 oatmilk has 2 transition hooks: onEnter, and onBeforeEnter. You can use it for the global routing context, and also for a single route's context.
