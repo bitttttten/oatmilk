@@ -102,7 +102,7 @@ function Navigation() {
 oatmilk has 2 transition hooks: onEnter, and onBeforeEnter. You can use it for the global routing context, and also for a single route's context.
 
 ```js routes.tsx
-import { IRoute } from 'oatmilk'
+import oatmilk, { IRoute } from 'oatmilk'
 
 export const routes: IRoutes = [
     {
