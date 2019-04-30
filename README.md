@@ -33,8 +33,7 @@ oatmilk is a minimal, decoupled, routing library for React.
 ### Wrap your App and send in routes
 
 ```js App.tsx
-import oatmilk from 'oatmilk'
-import { IRoutes } from 'oatmilk/dist/types'
+import oatmilk, { IRoutes } from 'oatmilk'
 
 const routes: oatmilk.IRoutes = [
     {
