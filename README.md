@@ -123,7 +123,7 @@ export const routes: IRoutes = [
         path: '/user/:slug',
         view: UserPage,
         onEnter: (route: IRoute, state: TRouteState) => {
-            UserStore.fetchUser(state.id)
+            UserStore.fetchUserById(state.id)
         },
     },
 ]
