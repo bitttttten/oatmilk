@@ -102,19 +102,19 @@ function Navigation() {
 oatmilk has 2 transition hooks: onEnter, and onBeforeEnter. You can use it for the global routing context, and also for a single route's context.
 
 ```js routes.tsx
-import oatmilk, { IRoute } from 'oatmilk'
+import oatmilk, { IRoute, TRouteState } from 'oatmilk'
 
 export const routes: IRoutes = [
     {
         name: 'home',
         path: '/',
         view: HomePage,
-        onEnter: (route, state) => {
+        onEnter: (route: IRoute, state: TRouteState) => {
             console.log('I am called as you enter only the home route')
             ArticlesStore.fetchTrendingArticles()
             TodoStore.fetchTodos()
         },
-        onExit: (route, state) => {
+        onExit: (route: IRoute, state: TRouteState) => {
             console.log('I am called as you exit only the home route')
         },
     },
@@ -122,18 +122,18 @@ export const routes: IRoutes = [
         name: 'user'
         path: '/user/:slug',
         view: UserPage,
-        onEnter: (route, state) => {
+        onEnter: (route: IRoute, state: TRouteState) => {
             UserStore.fetchUser(state.id)
         },
     },
 ]
 
-function onEnter(route, state) {
+function onEnter(route: IRoute, state: TRouteState) {
     console.log('I am called as you enter any route')
     analytics.logPageView()
 }
 
-function onExit(route, state) {
+function onExit(route: IRoute, state: TRouteState) {
     console.log('I am called as you exit any route')
 }
 
