@@ -96,6 +96,83 @@ You can read more about the [transition hooks](https://github.com/bitttttten/oat
 
 ## Custom hook callee
 
-If it's your first time fetching data on the server with React, then this can seem a little complicated.
+If it's your first time fetching data on the server with React, then this can seem a little complicated. Here's a real life example.
 
-Docs coming soon :)
+Full docs coming soon.
+
+Client side:
+
+```js index.jsx
+/** @jsx jsx */
+import { jsx } from '@emotion/core'
+import oatmilk from 'oatmilk'
+import ReactDOM from 'react-dom'
+import App from './App'
+import routes from './routes'
+import { Store } from './stores'
+import { TDefaultHookCallee, IRoute, TRouteState } from 'oatmilk/dist/types'
+
+const Store = makeStore()
+
+export type OatmilkHookCallee = TDefaultHookCallee
+export type OatmilkHook = (
+    toRoute: IRoute,
+    toState: TRouteState,
+    Store: any,
+) => Promise<void>
+
+function hookCallee(route: IRoute, state: TRouteState) {
+    return (hook: OatmilkHook) => hook(route, state, Store)
+}
+
+const OatmilkProvider = (
+    args: oatmilk.IProvider<OatmilkHookCallee, OatmilkHook>,
+) => oatmilk.Provider(args)
+
+export default function App() {
+    return (
+        <OatmilkProvider routes={routes} hookCallee={hookCallee}>
+            <App>
+                <oatmilk.RouterView />
+            </App>
+        </OatmilkProvider>
+    )
+}
+```
+
+Server:
+
+```jsx index.js
+const React = require('react')
+const { renderToString } = require('react-dom/server')
+const { Provider, getMatchWithCalleeFromUrl } = require('oatmilk')
+const { routes, default: App, Store, StoreProvider } = require('./yourServerEntryPoint')
+
+module.exports = async function webController(url) {
+    const Store = makeServerStore()
+
+    function hookCallee(route, state) {
+        return hook => hook(route, state, Store)
+    }
+
+    try {
+        // await on oatmilk's transition hooks
+        await getMatchWithCalleeFromUrl(hookCallee)(routes, url)
+    } catch (e) {
+        console.error(
+            '[web:controller:getMatchWithCalleeFromUrl]', e
+        )
+    }
+
+    const jsx = (
+        <StoreProvider value={Store}>
+            <oatmilk.Provider routes={routes} url={url}>
+                <App>
+                    <oatmilk.RouterView />
+                </App>
+            </oatmilk.Provider>
+        </StoreProvider>
+    )
+
+    return renderToString(jsx)
+```
