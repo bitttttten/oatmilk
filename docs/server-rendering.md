@@ -98,4 +98,4 @@ You can read more about the [transition hooks](https://github.com/bitttttten/oat
 
 If it's your first time fetching data on the server with React, then this can seem a little complicated.
 
-Ensure that you have the appropriate hook on your route:
+Docs coming soon :)
