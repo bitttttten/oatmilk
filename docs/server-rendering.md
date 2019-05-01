@@ -106,7 +106,6 @@ Client side:
 import React from 'react'
 import { hydrate } from 'react-dom'
 import oatmilk from 'oatmilk'
-import ReactDOM from 'react-dom'
 import App from './App'
 import routes from './routes'
 import { makeClientStore, StoreProvider } from './stores'
@@ -145,10 +144,10 @@ Server:
 ```jsx index.js
 const React = require('react')
 const { renderToString } = require('react-dom/server')
-const { Provider, getMatchWithCalleeFromUrl } = require('oatmilk')
+const oatmilk = require('oatmilk')
 const App = require('./App')
 const routes = require('./routes')
-const { makeClientStore, StoreProvider } = require(./stores')
+const { makeClientStore, StoreProvider } = require('./stores')
 
 module.exports = async function webController(url) {
     const Store = makeServerStore()
@@ -158,8 +157,8 @@ module.exports = async function webController(url) {
     }
 
     try {
-        // await on oatmilk's transition hooks
-        await getMatchWithCalleeFromUrl(hookCallee, routes, url)
+        // await on the current transition hook of the route that oatmilk matched with
+        await oatmilk.getMatchWithCalleeFromUrl(hookCallee, routes, url)
     } catch (e) {
         console.error(
             '[web:controller:getMatchWithCalleeFromUrl]', e
