@@ -96,32 +96,31 @@ You can read more about the [transition hooks](https://github.com/bitttttten/oat
 
 ## Custom hook callee
 
-If it's your first time fetching data on the server with React, then this can seem a little complicated. Here's a real life example.
+If it's your first time fetching data on the server with React, then this can seem a little complicated. Here's a pseudo-reallife example which demonstrates how to inject/pass an instance of your store into the route and global hooks of oatmilk. In the example, a lot of assumptions have been made and they are not quite copy-and-pastable.
 
 Full docs coming soon.
 
 Client side:
 
 ```js index.jsx
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
+import React from 'react'
+import { hydrate } from 'react-dom'
 import oatmilk from 'oatmilk'
 import ReactDOM from 'react-dom'
 import App from './App'
 import routes from './routes'
-import { Store } from './stores'
-import { TDefaultHookCallee, IRoute, TRouteState } from 'oatmilk'
+import { makeClientStore, StoreProvider } from './stores'
 
 const Store = makeStore()
 
-export type OatmilkHookCallee = TDefaultHookCallee
+export type OatmilkHookCallee = oatmilk.TDefaultHookCallee
 export type OatmilkHook = (
     toRoute: IRoute,
     toState: TRouteState,
     Store: any,
 ) => Promise<void>
 
-function hookCallee(route: IRoute, state: TRouteState) {
+function hookCallee(route: oatmilk.IRoute, state: oatmilk.TRouteState) {
     return (hook: OatmilkHook) => hook(route, state, Store)
 }
 
@@ -129,15 +128,16 @@ const OatmilkProvider = (
     args: oatmilk.IProvider<OatmilkHookCallee, OatmilkHook>,
 ) => oatmilk.Provider(args)
 
-export default function App() {
-    return (
+hydrate(
+    <StoreProvider value={Store}>
         <OatmilkProvider routes={routes} hookCallee={hookCallee}>
             <App>
                 <oatmilk.RouterView />
             </App>
         </OatmilkProvider>
-    )
-}
+    </StoreProvider>,
+    container
+)
 ```
 
 Server:
@@ -146,7 +146,9 @@ Server:
 const React = require('react')
 const { renderToString } = require('react-dom/server')
 const { Provider, getMatchWithCalleeFromUrl } = require('oatmilk')
-const { routes, default: App, makeServerStore, StoreProvider } = require('./yourServerEntryPoint')
+const App = require('./App')
+const routes = require('./routes')
+const { makeClientStore, StoreProvider } = require(./stores')
 
 module.exports = async function webController(url) {
     const Store = makeServerStore()
@@ -175,4 +177,5 @@ module.exports = async function webController(url) {
     )
 
     return renderToString(jsx)
+}
 ```
