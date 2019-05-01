@@ -85,7 +85,7 @@ function Navigation() {
     return (
         <>
             <oatmilk.Link routeName='home'>Go home</oatmilk.Link>
-            <oatmilk.Link routeName='home' state={{ user: 'bitttttten' }}>
+            <oatmilk.Link routeName='user' state={{ user: 'bitttttten' }}>
                 Go to my page
             </oatmilk.Link>
         </>
