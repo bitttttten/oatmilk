@@ -11,6 +11,9 @@ import {
     TRouteName,
     TRouteState,
     IData,
+    TDefaultHookCallee,
+    IRoute,
+    THook,
 } from './types'
 import {
     getRouteFromUrl,
@@ -29,14 +32,16 @@ export function Provider({
     url = window.location.pathname,
     onBeforeExit,
     onEnter,
-    hookCallee,
+    hookCallee = (route: IRoute, state: TRouteState) => (hook: THook) => hook(route, state),
 }: IProvider) {
     if (!url && SERVER) {
-        throw new Error('You must pass a URL when rendering on the server.')
+        throw new Error('[oatmilk] You must pass a URL when rendering on the server.')
+    } else if (SERVER && typeof url !== "string") {
+        throw new Error('[oatmilk] You must pass a string as the URL when rendering on the server.')
     }
 
     if (routes.length === 0) {
-        throw new Error('You must provide routes')
+        throw new Error('[oatmilk] You must provide routes')
     }
 
     const firstRoute = getRouteFromUrl(routes, url)
@@ -55,16 +60,15 @@ export function Provider({
             }
 
             await Promise.all([
-                route.onBeforeExit && route.onBeforeExit(route, state),
-                onBeforeExit && onBeforeExit(route, state),
+                route.onBeforeExit && hookCallee(route, state)(route.onBeforeExit),
+                onBeforeExit && hookCallee(route, state)(onBeforeExit),
             ])
 
             if (onEnter) {
-                onEnter(toRoute, toState)
+                hookCallee(toRoute, toState)(onEnter)
             }
             if (route.onEnter) {
-                const method = hookCallee || route.onEnter
-                method(toRoute, toState)
+                hookCallee(toRoute, toState)(route.onEnter)
             }
 
             setData({ route: toRoute, state: toState })
