@@ -158,3 +158,5 @@ Decoupling your state and data fetching from your view helps you keep a declarat
 ## Credits
 
 Thanks to [probablyup](https://github.com/probablyup)'s [buttermilk](https://github.com/probablyup/buttermilk), which was a project I found after writing the first draft of oatmilk which heavily inspired a lot of changes and inspiration.. and of course the name.
+
+Made possible by <a href="https://soulpicks.com" target="_blank"><img src="https://avatars0.githubusercontent.com/u/37078572?s=200&v=4" width="32" style="vertical-align: middle; margin-left: 4px;"></a>
