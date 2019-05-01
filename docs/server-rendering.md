@@ -146,7 +146,7 @@ Server:
 const React = require('react')
 const { renderToString } = require('react-dom/server')
 const { Provider, getMatchWithCalleeFromUrl } = require('oatmilk')
-const { routes, default: App, Store, StoreProvider } = require('./yourServerEntryPoint')
+const { routes, default: App, makeServerStore, StoreProvider } = require('./yourServerEntryPoint')
 
 module.exports = async function webController(url) {
     const Store = makeServerStore()
