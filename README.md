@@ -155,7 +155,7 @@ Decoupling your state and data fetching from your view helps you keep a declarat
 
 ## Credits
 
-Thanks to [probablyup](https://github.com/probablyup)'s [buttermilk](https://github.com/probablyup/buttermilk), which was a project I found after writing the first draft of oatmilk which heavily inspired a lot of changes and inspiration.. and of course the name.
+Thanks to [probablyup](https://github.com/probablyup)'s [buttermilk](https://github.com/probablyup/buttermilk), which was a project I found after writing the first draft of oatmilk which inspired a lot of changes and inspiration.. and of course the name.
 
 Made possible by
 
