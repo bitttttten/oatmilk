@@ -157,7 +157,7 @@ module.exports = async function webController(url) {
 
     try {
         // await on oatmilk's transition hooks
-        await getMatchWithCalleeFromUrl(hookCallee)(routes, url)
+        await getMatchWithCalleeFromUrl(hookCallee, routes, url)
     } catch (e) {
         console.error(
             '[web:controller:getMatchWithCalleeFromUrl]', e

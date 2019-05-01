@@ -42,6 +42,5 @@ export function getMatchWithCalleeFromUrl(
     url: TURL,
 ) {
     const { route, state } = getRouteAndStateFromUrl(routes, url)
-    const callback = hookCallee(route, state)
-    return callback
+    return hookCallee(route, state)(route.onEnter)
 }
