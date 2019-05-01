@@ -157,7 +157,7 @@ module.exports = async function Index(url) {
     }
 
     try {
-        // await on the current transition hook of the route that oatmilk matched with
+        // await on the `onEnter` transition hook of the route that oatmilk matched with
         await oatmilk.getMatchWithCalleeFromUrl(hookCallee, routes, url)
     } catch (e) {
         console.error(
