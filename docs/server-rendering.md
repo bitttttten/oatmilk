@@ -147,7 +147,7 @@ const { renderToString } = require('react-dom/server')
 const oatmilk = require('oatmilk')
 const App = require('./App')
 const routes = require('./routes')
-const { makeClientStore, StoreProvider } = require('./stores')
+const { makeServerStore, StoreProvider } = require('./stores')
 
 module.exports = async function Index(url) {
     const Store = makeServerStore()
