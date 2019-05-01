@@ -36,12 +36,12 @@ export function getMatchFromUrl(routes: IRoute[], url: TURL): Promise<void> {
     return onEnter ? onEnter(route, state) : Promise.resolve()
 }
 
-export function getMatchWithReducerFromUrl(hookReducer: any) {
+export function getMatchWithCalleeFromUrl(hookCallee: any) {
     return function getMatchFromUrl(
         routes: IRoute[],
         url: TURL,
     ): Promise<void> {
         const { route, state } = getRouteAndStateFromUrl(routes, url)
-        return hookReducer(route, state)
+        return hookCallee(route, state)
     }
 }
