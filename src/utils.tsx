@@ -36,12 +36,12 @@ export function getMatchFromUrl(routes: IRoute[], url: TURL): Promise<void> {
     return onEnter ? onEnter(route, state) : Promise.resolve()
 }
 
-export function getMatchWithCalleeFromUrl(hookCallee: any) {
-    return function getMatchFromUrl(
-        routes: IRoute[],
-        url: TURL,
-    ): Promise<void> {
-        const { route, state } = getRouteAndStateFromUrl(routes, url)
-        return hookCallee(route, state)
-    }
+export function getMatchWithCalleeFromUrl(
+    hookCallee: (route: IRoute, state: TRouteState) => (hook: any) => Promise<void>,
+    routes: IRoute[],
+    url: TURL,
+) {
+    const { route, state } = getRouteAndStateFromUrl(routes, url)
+    const callback = hookCallee(route, state)
+    return callback
 }
