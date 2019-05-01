@@ -1,10 +1,12 @@
 # Server rendering
 
+## Introduction
+
 ..is really simple. Just send in the path as `url` into the Provider. oatmilk is only suited to parse the path of the URL, since the query parameters have a different semantic meaning. Although oatmilk will persist the query params and hash/fragment identifier client side on the first page load.
 
-Here are some really simplified examples:
+Let's start with some examples using some popular frameworks.
 
-## hapijs
+### hapijs
 
 hapijs includes query params on it's url object. oatmilk is only suited to parse the path of a URL, so you must first strip the query parameters out.
 
@@ -19,7 +21,7 @@ exports.method = function method(request, h) {
 }
 ```
 
-## lambda
+### lambda
 
 lambdas strip the query params from the path into an object. This is actually okay, since oatmilk is only suited to parse the path of the URL.
 
@@ -91,3 +93,9 @@ module.exports = async function webController(url) {
 ```
 
 You can read more about the [transition hooks](https://github.com/bitttttten/oatmilk/blob/master/docs/transition-hooks.md) here.
+
+## Custom hook callee
+
+If it's your first time fetching data on the server with React, then this can seem a little complicated.
+
+Ensure that you have the appropriate hook on your route:

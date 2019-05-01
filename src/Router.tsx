@@ -103,11 +103,11 @@ export function Provider<TDefaultHookCallee>({
 
         if (onEnter) {
             // @ts-ignore
-            hookCallee(toRoute, toState)(onEnter)
+            hookCallee(route, state)(onEnter)
         }
         if (route.onEnter) {
             // @ts-ignore
-            hookCallee(toRoute, toState)(route.onEnter)
+            hookCallee(route, state)(route.onEnter)
         }
     })
 

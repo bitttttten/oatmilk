@@ -4,7 +4,7 @@
     "types": "dist/index.d.ts",
     "source": "src/index.tsx",
     "scripts": {
-        "deploy": "git add .; git commit; yarn build; npm version minor; npm publish",
+        "deploy": "git add . && git commit && yarn build && npm version minor && npm publish",
         "build": "rimraf dist/ && microbundle --external react --jsx react",
         "test": "soulpicks-react-scripts test"
     },
