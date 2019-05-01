@@ -99,8 +99,6 @@ function Navigation() {
 
 oatmilk has 2 transition hooks: onEnter, and onBeforeEnter. You can use it for the global routing context, and also for a single route's context.
 
-You can also provide a `hookCallee` where you can inject your own callee which can amongst things, help with server side rendering. Learn about that in [the server rendering docs](https://github.com/bitttttten/oatmilk/blob/master/docs/server-rendering.md).
-
 ```js routes.tsx
 import oatmilk, { IRoute, TRouteState } from 'oatmilk'
 
@@ -147,7 +145,7 @@ ReactDOM.render(
 
 ### Hook callee
 
-oatmilk ships with a way to customise how the above hooks are called.
+oatmilk ships with a way to customise how the above hooks are called with a `hookCallee` function. Use this method to inject your own callee to completely customise the transition hooks. This can help with server side rendering by passing in a store on the server and client. Learn about that in [the server rendering docs](https://github.com/bitttttten/oatmilk/blob/master/docs/server-rendering.md).
 
 ## Decoupled
 
