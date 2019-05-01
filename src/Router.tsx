@@ -11,7 +11,6 @@ import {
     TRouteName,
     TRouteState,
     IData,
-    TDefaultHookCallee,
     IRoute,
     THook,
 } from './types'
