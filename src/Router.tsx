@@ -13,6 +13,7 @@ import {
     IData,
     IRoute,
     THook,
+    TDefaultHookCallee,
 } from './types'
 import {
     getRouteFromUrl,
@@ -25,14 +26,19 @@ const SERVER = typeof window === 'undefined'
 
 export const Context = createContext<IContext>(null!)
 
-export function Provider({
+function defaultHookCallee(route: IRoute, state: TRouteState) {
+    return (hook: THook) => hook(route, state)
+}
+
+export function Provider<TDefaultHookCallee>({
     children,
     routes,
     url = window.location.pathname,
     onBeforeExit,
     onEnter,
-    hookCallee = (route: IRoute, state: TRouteState) => (hook: THook) => hook(route, state),
-}: IProvider) {
+    // @ts-ignore
+    hookCallee = defaultHookCallee,
+}: IProvider<TDefaultHookCallee>) {
     if (!url && SERVER) {
         throw new Error('[oatmilk] You must pass a URL when rendering on the server.')
     } else if (SERVER && typeof url !== "string") {
@@ -59,14 +65,18 @@ export function Provider({
             }
 
             await Promise.all([
+                // @ts-ignore
                 route.onBeforeExit && hookCallee(route, state)(route.onBeforeExit),
+                // @ts-ignore
                 onBeforeExit && hookCallee(route, state)(onBeforeExit),
             ])
 
             if (onEnter) {
+                // @ts-ignore
                 hookCallee(toRoute, toState)(onEnter)
             }
             if (route.onEnter) {
+                // @ts-ignore
                 hookCallee(toRoute, toState)(route.onEnter)
             }
 
@@ -92,11 +102,12 @@ export function Provider({
         if (SERVER) return
 
         if (onEnter) {
-            onEnter(route, state)
+            // @ts-ignore
+            hookCallee(toRoute, toState)(onEnter)
         }
         if (route.onEnter) {
-            const method = hookCallee || route.onEnter
-            method(route, state)
+            // @ts-ignore
+            hookCallee(toRoute, toState)(route.onEnter)
         }
     })
 

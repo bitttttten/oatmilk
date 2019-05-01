@@ -6,22 +6,19 @@ export declare type TRouteName = string
 export declare type TRoutePath = string
 export declare type TURL = string
 
-export declare type THook = (
-    route: IRoute,
-    state: TRouteState,
-) => Promise<void>
+export declare type THook = (route: IRoute, state: TRouteState) => Promise<void>
 
 export declare type TDefaultHookCallee = (
     route: IRoute,
-    state: TRouteState,
+    state: any,
 ) => (hook: THook) => Promise<void>
 
-export declare interface IRoute<Hook = THook> {
+export declare interface IRoute<HookCallee = THook> {
     name: TRouteName
     path: TRoutePath
     view: ComponentType
-    onBeforeExit?: Hook
-    onEnter?: Hook
+    onBeforeExit?: HookCallee
+    onEnter?: HookCallee
 }
 
 export declare interface IData {
@@ -29,7 +26,8 @@ export declare interface IData {
     state: TRouteState
 }
 
-export declare interface IProvider<HookCallee = TDefaultHookCallee> extends HTMLProps<HTMLElement> {
+export declare interface IProvider<HookCallee = TDefaultHookCallee>
+    extends HTMLProps<HTMLElement> {
     routes: IRoute[]
     url?: TURL
     onBeforeExit?: THook

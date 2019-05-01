@@ -37,7 +37,7 @@ export function getMatchFromUrl(routes: IRoute[], url: TURL): Promise<void> {
 }
 
 export function getMatchWithCalleeFromUrl(
-    hookCallee: (route: IRoute, state: TRouteState) => (hook: any) => Promise<void>,
+    hookCallee: (route: IRoute, state: TRouteState) => (hook: any) => Promise<any>,
     routes: IRoute[],
     url: TURL,
 ) {
