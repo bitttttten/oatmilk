@@ -16,12 +16,12 @@ export declare type TDefaultHookCallee = (
     state: TRouteState,
 ) => (hook: THook) => Promise<void>
 
-export declare interface IRoute {
+export declare interface IRoute<Hook = THook> {
     name: TRouteName
     path: TRoutePath
     view: ComponentType
-    onBeforeExit?: THook
-    onEnter?: THook
+    onBeforeExit?: Hook
+    onEnter?: Hook
 }
 
 export declare interface IData {
