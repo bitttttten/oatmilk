@@ -149,7 +149,7 @@ const App = require('./App')
 const routes = require('./routes')
 const { makeClientStore, StoreProvider } = require('./stores')
 
-module.exports = async function webController(url) {
+module.exports = async function Index(url) {
     const Store = makeServerStore()
 
     function hookCallee(route, state) {
