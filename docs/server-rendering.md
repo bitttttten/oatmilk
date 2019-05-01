@@ -110,7 +110,7 @@ import ReactDOM from 'react-dom'
 import App from './App'
 import routes from './routes'
 import { Store } from './stores'
-import { TDefaultHookCallee, IRoute, TRouteState } from 'oatmilk/dist/types'
+import { TDefaultHookCallee, IRoute, TRouteState } from 'oatmilk'
 
 const Store = makeStore()
 
