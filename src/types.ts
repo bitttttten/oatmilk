@@ -26,7 +26,7 @@ export declare interface IData<Hook> {
     state: TRouteState
 }
 
-export declare interface IProvider<HookCallee = TDefaultHookCallee, Hook = THook>
+export declare interface IProvider<HookCallee, Hook>
     extends HTMLProps<HTMLElement> {
     routes: IRoute<Hook>[]
     url?: TURL
