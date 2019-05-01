@@ -4,6 +4,8 @@ import React, {
     useCallback,
     useState,
     useEffect,
+    ProviderExoticComponent,
+    ProviderProps,
 } from 'react'
 import {
     IContext,
@@ -24,13 +26,13 @@ import {
 
 const SERVER = typeof window === 'undefined'
 
-export const Context = createContext<IContext>(null!)
+export const Context = createContext<IContext<THook>>(null!)
 
 function defaultHookCallee(route: IRoute, state: TRouteState) {
     return (hook: THook) => hook(route, state)
 }
 
-export function Provider<TDefaultHookCallee, THook>({
+export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
     children,
     routes,
     url = window.location.pathname,
@@ -38,7 +40,7 @@ export function Provider<TDefaultHookCallee, THook>({
     onEnter,
     // @ts-ignore
     hookCallee = defaultHookCallee,
-}: IProvider<TDefaultHookCallee, THook>) {
+}: IProvider<HookCallee, Hook>) {
     if (!url && SERVER) {
         throw new Error('[oatmilk] You must pass a URL when rendering on the server.')
     } else if (SERVER && typeof url !== "string") {
@@ -49,9 +51,9 @@ export function Provider<TDefaultHookCallee, THook>({
         throw new Error('[oatmilk] You must provide routes')
     }
 
-    const firstRoute = getRouteFromUrl<THook>(routes, url)
+    const firstRoute = getRouteFromUrl<Hook>(routes, url)
 
-    const [{ route, state }, setData] = useState<IData<THook>>({
+    const [{ route, state }, setData] = useState<IData<Hook>>({
         route: firstRoute!,
         state: firstRoute ? getStateFromUrl(firstRoute.path, url) : {},
     })
@@ -157,5 +159,7 @@ export function Provider<TDefaultHookCallee, THook>({
         [route.name, state],
     )
 
-    return <Context.Provider value={value}>{children}</Context.Provider>
+    const ContextProvider = Context.Provider as ProviderExoticComponent<ProviderProps<IContext<Hook>>>
+
+    return <ContextProvider value={value}>{children}</ContextProvider>
 }
