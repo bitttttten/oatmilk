@@ -30,7 +30,7 @@ function defaultHookCallee(route: IRoute, state: TRouteState) {
     return (hook: THook) => hook(route, state)
 }
 
-export function Provider<TDefaultHookCallee>({
+export function Provider<TDefaultHookCallee, THook>({
     children,
     routes,
     url = window.location.pathname,
@@ -38,7 +38,7 @@ export function Provider<TDefaultHookCallee>({
     onEnter,
     // @ts-ignore
     hookCallee = defaultHookCallee,
-}: IProvider<TDefaultHookCallee>) {
+}: IProvider<TDefaultHookCallee, THook>) {
     if (!url && SERVER) {
         throw new Error('[oatmilk] You must pass a URL when rendering on the server.')
     } else if (SERVER && typeof url !== "string") {
@@ -49,9 +49,9 @@ export function Provider<TDefaultHookCallee>({
         throw new Error('[oatmilk] You must provide routes')
     }
 
-    const firstRoute = getRouteFromUrl(routes, url)
+    const firstRoute = getRouteFromUrl<THook>(routes, url)
 
-    const [{ route, state }, setData] = useState<IData>({
+    const [{ route, state }, setData] = useState<IData<THook>>({
         route: firstRoute!,
         state: firstRoute ? getStateFromUrl(firstRoute.path, url) : {},
     })

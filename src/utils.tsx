@@ -1,13 +1,13 @@
 import UrlPattern from 'url-pattern'
 import { IRoute, TRouteState, TRouteName, TURL, TRoutePath } from './types'
 
-export function getRouteFromUrl(routes: IRoute[], url: TURL) {
+export function getRouteFromUrl<T>(routes: IRoute<T>[], url: TURL) {
     return (
         routes.find(({ path }) => new UrlPattern(path).match(url)) ||
         getRouteByName(routes, 'notFound')
     )
 }
-export function getRouteByName(routes: IRoute[], routeName: TRouteName) {
+export function getRouteByName<T>(routes: IRoute<T>[], routeName: TRouteName) {
     return routes.find(({ name }) => name === routeName)
 }
 
@@ -22,7 +22,7 @@ export function deriveUrlFromPathAndState(
     return new UrlPattern(path).stringify(state)
 }
 
-function getRouteAndStateFromUrl(routes: IRoute[], url: TURL) {
+function getRouteAndStateFromUrl<T>(routes: IRoute<T>[], url: TURL) {
     const route = getRouteFromUrl(routes, url)!
     const state = getStateFromUrl(route.path, url)
     return { route, state }

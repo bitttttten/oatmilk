@@ -13,25 +13,25 @@ export declare type TDefaultHookCallee = (
     state: any,
 ) => (hook: THook) => Promise<void>
 
-export declare interface IRoute<HookCallee = THook> {
+export declare interface IRoute<Hook = THook> {
     name: TRouteName
     path: TRoutePath
     view: ComponentType
-    onBeforeExit?: HookCallee
-    onEnter?: HookCallee
+    onBeforeExit?: Hook
+    onEnter?: Hook
 }
 
-export declare interface IData {
-    route: IRoute
+export declare interface IData<Hook> {
+    route: IRoute<Hook>
     state: TRouteState
 }
 
-export declare interface IProvider<HookCallee = TDefaultHookCallee>
+export declare interface IProvider<HookCallee = TDefaultHookCallee, Hook = THook>
     extends HTMLProps<HTMLElement> {
-    routes: IRoute[]
+    routes: IRoute<Hook>[]
     url?: TURL
-    onBeforeExit?: THook
-    onEnter?: THook
+    onBeforeExit?: Hook
+    onEnter?: Hook
     hookCallee?: HookCallee
 }
 
