@@ -39,17 +39,20 @@ const routes: oatmilk.IRoutes = [
     {
         name: 'home',
         path: '/',
+        // send in any react node
         view: () => <p>The world never says hello back..</p>,
     },
     {
         name: 'user',
         path: '/user/:id',
+        // use React.lazy to help with code splitting
         view: React.lazy(() => import('./Pages/User.tsx')),
     },
     {
         name: 'notFound',
         path: '/404',
-        view: React.lazy(() => import('./Pages/NotFound.tsx')),
+        // or use @loadable/component for SSR support
+        view: loadable(() => import('./Pages/NotFound.tsx')),
     },
 ]
 
