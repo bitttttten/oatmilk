@@ -167,7 +167,7 @@ module.exports = async function Index(url) {
 
     const jsx = (
         <StoreProvider value={Store}>
-            <oatmilk.Provider routes={routes} url={url}>
+            <oatmilk.Provider routes={routes} url={url} hookCallee={hookCallee}>
                 <App>
                     <oatmilk.RouterView />
                 </App>
