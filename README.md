@@ -28,7 +28,9 @@ oatmilk is a minimal, decoupled, routing library for React.
 
 `yarn add oatmilk`
 
-### Wrap your App and send in routes
+### Wrap your App with your routes
+
+Note: you must included a route with a name of `notFound`, since this is the fallback route.
 
 ```js App.tsx
 import oatmilk, { IRoutes } from 'oatmilk'
