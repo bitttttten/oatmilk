@@ -8,7 +8,7 @@ For example, if you wanted to build on top of `RouterView` you can do it really 
 import React, { useContext } from 'react'
 import oatmilk, { TRouteName } from 'oatmilk'
 
-function getColour(routeName: TRouteName) {
+function getColour(routeName: TRouteName | null) {
     switch (routeName) {
         case 'home':
             return 'tomato'
@@ -23,7 +23,7 @@ export default function NavBar() {
     const { route } = useContext(oatmilk.Context)
 
     return (
-        <div css={{ backgroundColor: getColour(route ? route.view : '') }}>
+        <div css={{ backgroundColor: getColour(route ? route.name : null) }}>
             <Link routeName='home'>
                 <IconHome /> Home
             </Link>
