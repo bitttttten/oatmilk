@@ -59,6 +59,7 @@ const routes: oatmilk.IRoute[] = [
     },
     {
         name: 'user',
+        // 'named segment'
         path: '/user/:id',
         // use React.lazy to help with code splitting
         view: React.lazy(() => import('./Pages/User.tsx')),
