@@ -6,7 +6,7 @@ For example, if you wanted to build on top of `RouterView` you can do it really 
 
 ```js Navbar.tsx
 import React, { useContext } from 'react'
-import oatmilk, { TRouteName } from 'oatmilk'
+import oatmilk, { Link, TRouteName } from 'oatmilk'
 
 function getColour(routeName: TRouteName | null) {
     switch (routeName) {
