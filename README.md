@@ -33,6 +33,18 @@ oatmilk is a minimal, decoupled, routing library for React.
 
 ### Wrap your App with your routes
 
+Each route is an object with the required shape: 
+
+```js
+{
+    name: string
+    path: path
+    view: ReactNode
+}
+```
+
+Where `path` is any default pattern of [url-pattern](https://www.npmjs.com/package/url-pattern). There are also 2 other properties that you are able to include on this object which relate to the [transition hooks](https://github.com/bitttttten/oatmilk/blob/master/README.md#transition-hooks).
+
 You must included a route with a name of `notFound` since this is the fallback route.
 
 ```js App.tsx
