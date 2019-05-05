@@ -35,7 +35,7 @@ You must included a route with a name of `notFound` since this is the fallback r
 ```js App.tsx
 import oatmilk, { IRoutes } from 'oatmilk'
 
-const routes: oatmilk.IRoutes = [
+const routes: oatmilk.IRoute[] = [
     {
         name: 'home',
         path: '/',
