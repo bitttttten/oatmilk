@@ -101,6 +101,8 @@ function Navigation() {
 }
 ```
 
+..and off you go 🎉✨
+
 ## API
 
 ### Transition Hooks
