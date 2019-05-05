@@ -84,7 +84,7 @@ ReactDOM.render(
 
 ### Render a RouterView
 
-The `RouterView` will render the current route's `view`
+The `RouterView` will render the current route's `view`.
 
 ```js App.tsx
 export function App() {
