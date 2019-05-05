@@ -1,9 +1,13 @@
 import UrlPattern from 'url-pattern'
 import { IRoute, TRouteState, TRouteName, TURL, TRoutePath } from './types'
 
-export function getRouteFromUrl<T>(routes: IRoute<T>[], url: TURL) {
+export function getRouteFromUrl<T>(
+    routes: IRoute<T>[],
+    url: TURL,
+    Matcher: any = UrlPattern,
+) {
     return (
-        routes.find(({ path }) => new UrlPattern(path).match(url)) ||
+        routes.find(({ path }) => new Matcher(path).match(url)) ||
         getRouteByName(routes, 'notFound')
     )
 }
@@ -11,15 +15,20 @@ export function getRouteByName<T>(routes: IRoute<T>[], routeName: TRouteName) {
     return routes.find(({ name }) => name === routeName)
 }
 
-export function getStateFromUrl(path: TRoutePath, url: TURL): TRouteState {
-    return new UrlPattern(path).match(url)
+export function getStateFromUrl(
+    path: TRoutePath,
+    url: TURL,
+    Matcher: any = UrlPattern,
+): TRouteState {
+    return new Matcher(path).match(url)
 }
 
 export function deriveUrlFromPathAndState(
     path: TRoutePath,
     state: TRouteState,
+    Matcher: any = UrlPattern,
 ) {
-    return new UrlPattern(path).stringify(state)
+    return new Matcher(path).stringify(state)
 }
 
 function getRouteAndStateFromUrl<T>(routes: IRoute<T>[], url: TURL) {
@@ -37,7 +46,10 @@ export function getMatchFromUrl(routes: IRoute[], url: TURL): Promise<void> {
 }
 
 export function getMatchWithCalleeFromUrl(
-    hookCallee: (route: IRoute, state: TRouteState) => (hook: any) => Promise<any>,
+    hookCallee: (
+        route: IRoute,
+        state: TRouteState,
+    ) => (hook: any) => Promise<any>,
     routes: IRoute[],
     url: TURL,
 ) {
