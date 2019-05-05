@@ -1,6 +1,6 @@
 # Using oatmilk's Context
 
-oatmilk's was written with the intent to be simple and flexible. It uses React's Context API which is exported as `oatmilk.Context`, so you are encouraged to use it.
+oatmilk's was written with the intent to be simple and flexible. It uses React's Context API which is exported as `oatmilk.Context` so you are encouraged to use it.
 
 For example, if you wanted to build on top of `RouterView` you can do it really easily. Or if, for some reason, you wanted to change the background colour of your navbar depending on the route, it's quite simple too:
 
