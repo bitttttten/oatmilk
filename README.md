@@ -86,7 +86,7 @@ export function App() {
 
 ### Render some links
 
-No need to generate the paths here, oatmilk will find the route and generate a path for you that is derived from the state.
+oatmilk automatically generates paths for you as the URLs can be derived from the state
 
 ```js App.tsx
 function Navigation() {
