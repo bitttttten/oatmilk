@@ -96,10 +96,12 @@ You can read more about the [transition hooks](https://github.com/bitttttten/oat
 
 ## Custom hook callee
 
-You are able to customise how the transition hooks are called with a hookCallee function. Use this method to inject your own callee to completely customise the transition hooks. The hook callee is called with 2 arguments, the current route and the state of the route (if any). If no hookCallee is passed in, it will default to the below which is essentially transparent currying.
+You are able to customise how the transition hooks are called with a hookCallee function. Use this method to inject your own callee to completely customise the transition hooks. The hook callee is called with 2 arguments: the current route, and the state of the route. If no hookCallee is passed in, it will default to the code below which is essentially transparent currying. You must return a function which will be called in the transtion hook's phase, so you are able to call the hook with new arguments.
 
 ```js hookCallee.tsx
-function hookCallee(route: oatmilk.IRoute, state: oatmilk.TRouteState) {
+import { IRoute, TRouteState, THook } from 'oatmilk'
+
+function hookCallee(route: IRoute, state: TRouteState) {
     return (hook: THook) => hook(route, state)
 }
 ```
