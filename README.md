@@ -35,7 +35,7 @@ oatmilk is a minimal, decoupled, routing library for React.
 
 Each route is an object with the required shape: 
 
-```js
+```sh
 {
     name: string
     path: path
