@@ -5,7 +5,7 @@
     "source": "src/index.tsx",
     "scripts": {
         "pre:publish": "git add . && git commit && yarn build && npm version",
-        "build": "rimraf dist/ && microbundle --external react,url-pattern --jsx react",
+        "build": "rimraf dist/ && microbundle --external react --jsx react",
         "test": "soulpicks-react-scripts test"
     },
     "dependencies": {
