@@ -45,7 +45,7 @@ Each route is an object with the required shape:
 }
 ```
 
-Where `path` is any default pattern of [url-pattern](https://www.npmjs.com/package/url-pattern). The 2 optional properties `onEnter` and `onExit` that you are able to include on this object are explained in the [transition hooks](https://github.com/bitttttten/oatmilk/blob/master/README.md#transition-hooks).
+Where `path` is any default pattern of [url-pattern](https://www.npmjs.com/package/url-pattern). The 2 optional properties `onEnter` and `onExit` are explained in the [transition hooks docs](https://github.com/bitttttten/oatmilk/blob/master/README.md#transition-hooks).
 
 You must included a route with a name of `notFound` since this is the fallback route.
 
