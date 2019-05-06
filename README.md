@@ -4,7 +4,7 @@
 
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![Github release version](https://img.shields.io/github/tag/bitttttten/oatmilk.svg)](https://github.com/bitttttten/oatmilk/releases)
-[![Commits since release](https://img.shields.io/github/commits-since/bitttttten/oatmilk/v2.1.1.svg)](https://github.com/bitttttten/oatmilk/compare/v2.1.1...master)
+[![Commits since release](https://img.shields.io/github/commits-since/bitttttten/oatmilk/v2.2.0.svg)](https://github.com/bitttttten/oatmilk/compare/v2.2.0...master)
 [![npm release version](https://img.shields.io/npm/v/oatmilk.svg)](https://www.npmjs.com/package/oatmilk)
 
 ## Introduction
@@ -33,7 +33,7 @@ oatmilk is a minimal, decoupled, routing library for React.
 
 ### Wrap your App with your routes
 
-Each route is an object with the required shape: 
+Each route is an object with the required shape:
 
 ```sh
 {
