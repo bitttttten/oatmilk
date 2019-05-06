@@ -1,10 +1,16 @@
 import 'jest-dom/extend-expect'
 import React from 'react'
-import { cleanup, render, fireEvent } from 'react-testing-library'
+import {
+    cleanup,
+    render,
+    fireEvent,
+    waitForElement,
+} from 'react-testing-library'
+import { act } from 'react-dom/test-utils'
 import { Provider, Link } from '../index'
 import { IRoute } from '../types'
-import { RouterView } from '../RouterView';
-import { getRouteFromUrl, getRouteByName, getStateFromUrl } from '../utils';
+import { RouterView } from '../RouterView'
+import { getRouteFromUrl, getRouteByName, getStateFromUrl } from '../utils'
 
 afterEach(cleanup)
 
@@ -31,44 +37,45 @@ const routes: IRoute[] = [homeRoute, userRoute, notFoundRoute]
 describe('<Link>', () => {
     test('renders link text content and attributes correctly', () => {
         const { getByText } = render(
-            <Provider
-                url="/"
-                routes={routes}
-            >
+            <Provider url='/' routes={routes}>
                 <Link routeName='home'>link to home</Link>
-                <Link routeName='user' state={{ user: 'bitttttten' }}>link to bitttttten</Link>
+                <Link routeName='user' state={{ id: 'bitttttten' }}>
+                    link to bitttttten
+                </Link>
                 <Link routeName='notFound'>link to 404</Link>
             </Provider>,
         )
         expect(getByText(/link to home/)).toBeTruthy()
-        expect(getByText(/link to bitttttten/).getAttribute('href')).toBe('/user/bitttttten')
+        expect(getByText(/link to bitttttten/).getAttribute('href')).toBe(
+            '/user/bitttttten',
+        )
         expect(getByText(/link to 404/)).toBeTruthy()
     })
-    test('navigates from one view to another', () => {
+    test('navigates from one view to another', async () => {
         const { getByText } = render(
-            <Provider
-                url="/"
-                routes={routes}
-            >
+            <Provider url='/' routes={routes}>
                 <RouterView />
                 <Link routeName='home'>link to home</Link>
-                <Link routeName='user' state={{ user: 'bitttttten' }}>link to bitttttten</Link>
+                <Link routeName='user' state={{ id: 'bitttttten' }}>
+                    link to bitttttten
+                </Link>
             </Provider>,
         )
         expect(getByText(/this is the homepage/)).toBeTruthy()
-        fireEvent.click(getByText(/link to bitttttten/))
-        expect(getByText(/this is the user page/)).toBeTruthy()
-        fireEvent.click(getByText(/link to home/))
-        expect(getByText(/this is the homepage/)).toBeTruthy()
+        act(() => {
+            fireEvent.click(getByText(/link to bitttttten/))
+        })
+        await waitForElement(() => getByText(/this is the user page/))
+        act(() => {
+            fireEvent.click(getByText(/link to home/))
+        })
+        await waitForElement(() => getByText(/this is the homepage/))
     })
     test('throws error with an invalid route', () => {
         expect(() => {
             render(
-                <Provider
-                    url="/"
-                    routes={routes}
-                >
-                    <Link routeName='url-that-is-not-caught'>broken link</Link>
+                <Provider url='/' routes={routes}>
+                    <Link routeName='url-that-is-not-present'>broken link</Link>
                 </Provider>,
             )
         }).toThrow()
@@ -80,10 +87,10 @@ describe('getRouteFromUrl', () => {
         expect(getRouteFromUrl(routes, '/')).toEqual(homeRoute)
     })
     test('finds `notFound` route from `/404`', () => {
-        expect(getRouteFromUrl(routes, '/')).toEqual(notFoundRoute)
+        expect(getRouteFromUrl(routes, '/404')).toEqual(notFoundRoute)
     })
-    test('returns `notFound` route from `/url-that-is-not-caught`', () => {
-        expect(getRouteFromUrl(routes, '/')).toEqual(notFoundRoute)
+    test('returns `notFound` route from `/url-that-is-not-present`', () => {
+        expect(getRouteFromUrl(routes, '/url-that-is-not-present')).toEqual(notFoundRoute)
     })
 })
 
@@ -94,7 +101,7 @@ describe('getRouteByName', () => {
     test('finds `notFound` route from `/404`', () => {
         expect(getRouteByName(routes, 'notFound')).toEqual(notFoundRoute)
     })
-    test('returns undefined from `/url-that-is-not-caught`', () => {
+    test('returns undefined from `/url-that-is-not-present`', () => {
         expect(getRouteByName(routes, '/')).toEqual(undefined)
     })
 })
@@ -104,6 +111,8 @@ describe('getStateFromUrl', () => {
         expect(getStateFromUrl('/', '/')).toEqual({})
     })
     test('returns an object with `id` of `bitttttten` in the user route', () => {
-        expect(getStateFromUrl('/user/:id', '/user/bitttttten')).toEqual({ id: 'bitttttten' })
+        expect(getStateFromUrl('/user/:id', '/user/bitttttten')).toEqual({
+            id: 'bitttttten',
+        })
     })
 })
