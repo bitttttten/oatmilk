@@ -1,16 +1,16 @@
 import 'jest-dom/extend-expect'
 import React from 'react'
 import {
+    act,
     cleanup,
-    render,
     fireEvent,
+    render,
     waitForElement,
 } from 'react-testing-library'
-import { act } from 'react-dom/test-utils'
-import { Provider, Link } from '../index'
-import { IRoute } from '../types'
+import { Link, Provider } from '../index'
 import { RouterView } from '../RouterView'
-import { getRouteFromUrl, getRouteByName, getStateFromUrl } from '../utils'
+import { IRoute } from '../types'
+import { getRouteByName, getRouteFromUrl, getStateFromUrl } from '../utils'
 
 afterEach(cleanup)
 
@@ -80,6 +80,38 @@ describe('<Link>', () => {
             )
         }).toThrow()
     })
+    test('global hooks are called called', async () => {
+        const onEnter = jest.fn()
+        const onBeforeExit = jest.fn()
+        const { getByText } = render(
+            <Provider
+                url='/'
+                routes={routes}
+                onEnter={onEnter}
+                onBeforeExit={onBeforeExit}
+            >
+                <RouterView />
+                <Link routeName='home'>link to home</Link>
+                <Link routeName='user' state={{ id: 'bitttttten' }}>
+                    link to bitttttten
+                </Link>
+            </Provider>,
+        )
+        expect(onEnter).toHaveBeenCalledTimes(1)
+        expect(onBeforeExit).toHaveBeenCalledTimes(0)
+        act(() => {
+            fireEvent.click(getByText(/link to bitttttten/))
+        })
+        await waitForElement(() => getByText(/this is the user page/))
+        expect(onEnter).toHaveBeenCalledTimes(2)
+        expect(onBeforeExit).toHaveBeenCalledTimes(1)
+        act(() => {
+            fireEvent.click(getByText(/link to home/))
+        })
+        await waitForElement(() => getByText(/this is the homepage/))
+        expect(onEnter).toHaveBeenCalledTimes(3)
+        expect(onBeforeExit).toHaveBeenCalledTimes(2)
+    })
 })
 
 describe('getRouteFromUrl', () => {
@@ -90,7 +122,9 @@ describe('getRouteFromUrl', () => {
         expect(getRouteFromUrl(routes, '/404')).toEqual(notFoundRoute)
     })
     test('returns `notFound` route from `/url-that-is-not-present`', () => {
-        expect(getRouteFromUrl(routes, '/url-that-is-not-present')).toEqual(notFoundRoute)
+        expect(getRouteFromUrl(routes, '/url-that-is-not-present')).toEqual(
+            notFoundRoute,
+        )
     })
 })
 
