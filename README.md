@@ -4,7 +4,7 @@
 
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![Github release version](https://img.shields.io/github/tag/bitttttten/oatmilk.svg)](https://github.com/bitttttten/oatmilk/releases)
-[![Commits since release](https://img.shields.io/github/commits-since/bitttttten/oatmilk/v2.3.0.svg)](https://github.com/bitttttten/oatmilk/compare/v2.3.0...master)
+[![Commits since release](https://img.shields.io/github/commits-since/bitttttten/oatmilk/v2.4.0.svg)](https://github.com/bitttttten/oatmilk/compare/v2.4.0...master)
 [![npm release version](https://img.shields.io/npm/v/oatmilk.svg)](https://www.npmjs.com/package/oatmilk)
 
 ## Introduction
