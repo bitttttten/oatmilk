@@ -50,7 +50,7 @@ Where `path` is any default pattern of [url-pattern](https://www.npmjs.com/packa
 You must included a route with a name of `notFound` since this is the fallback route. The order of the routes does not matter.
 
 ```js App.tsx
-import oatmilk, { IRoutes } from 'oatmilk'
+import oatmilk from 'oatmilk'
 
 const routes: oatmilk.IRoute[] = [
     {
