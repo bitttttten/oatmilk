@@ -137,7 +137,7 @@ export const routes: IRoutes = [
             ArticlesStore.fetchTrendingArticles()
             TodoStore.fetchTodos()
         },
-        onExit: (route: IRoute, state: TRouteState) => {
+        onBeforeExit: (route: IRoute, state: TRouteState) => {
             console.log('I am called as you exit only the home route')
         },
     },
@@ -156,12 +156,12 @@ function onEnter(route: IRoute, state: TRouteState) {
     analytics.logPageView()
 }
 
-function onExit(route: IRoute, state: TRouteState) {
+function onBeforeExit(route: IRoute, state: TRouteState) {
     console.log('I am called as you exit any route')
 }
 
 ReactDOM.render(
-    <oatmilk.RouterProvider routes={routes} onEnter={onEnter} onExit={onExit}>
+    <oatmilk.RouterProvider routes={routes} onEnter={onEnter} onBeforeExit={onBeforeExit}>
         <App />
     </oatmilk.RouterProvider>,
     document.getElementById('root'),
