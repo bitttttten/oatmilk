@@ -83,12 +83,12 @@ export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
             }
             if (route.onEnter) {
                 // @ts-ignore
-                hookCallee(toRoute, toState)(route.onEnter)
+                hookCallee(toRoute, toState)(toRoute.onEnter)
             }
 
             setData({ route: toRoute, state: toState })
         },
-        [],
+        [routes, route, state],
     )
 
     const getHref = useCallback(
@@ -101,7 +101,7 @@ export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
             }
             return deriveUrlFromPathAndState(route.path, state)
         },
-        [],
+        [routes],
     )
 
     useEffect(() => {
