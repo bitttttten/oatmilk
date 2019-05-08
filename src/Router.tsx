@@ -111,7 +111,7 @@ export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
             // @ts-ignore
             hookCallee(route, state)(route.onEnter)
         }
-    })
+    }, [])
 
     useEffect(() => {
         if (SERVER) return
