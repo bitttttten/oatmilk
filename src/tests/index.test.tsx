@@ -80,6 +80,9 @@ describe('<Link>', () => {
             )
         }).toThrow()
     })
+})
+
+describe('Transition Hooks', () => {
     test('global hooks are called called', async () => {
         const onEnter = jest.fn()
         const onBeforeExit = jest.fn()
