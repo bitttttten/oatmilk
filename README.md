@@ -41,11 +41,11 @@ Each route is an object with the required shape:
     path: path
     view: ReactNode
     onEnter?: function
-    onExit?: function
+    onBeforeExit?: function
 }
 ```
 
-Where `path` is any default pattern of [url-pattern](https://www.npmjs.com/package/url-pattern). The 2 optional properties `onEnter` and `onExit` are explained in the [transition hooks docs](https://github.com/bitttttten/oatmilk/blob/master/README.md#transition-hooks).
+Where `path` is any default pattern of [url-pattern](https://www.npmjs.com/package/url-pattern). The 2 optional properties `onEnter` and `onBeforeExit` are explained in the [transition hooks docs](https://github.com/bitttttten/oatmilk/blob/master/README.md#transition-hooks).
 
 You must included a route with a name of `notFound` since this is the fallback route. The order of the routes does not matter.
 
