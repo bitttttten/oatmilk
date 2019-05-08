@@ -42,9 +42,13 @@ export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
     hookCallee = defaultHookCallee,
 }: IProvider<HookCallee, Hook>) {
     if (!url && SERVER) {
-        throw new Error('[oatmilk] You must pass a URL when rendering on the server.')
-    } else if (SERVER && typeof url !== "string") {
-        throw new Error('[oatmilk] You must pass a string as the URL when rendering on the server.')
+        throw new Error(
+            '[oatmilk] You must pass a URL when rendering on the server.',
+        )
+    } else if (SERVER && typeof url !== 'string') {
+        throw new Error(
+            '[oatmilk] You must pass a string as the URL when rendering on the server.',
+        )
     }
 
     if (routes.length === 0) {
@@ -159,7 +163,9 @@ export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
         [route.name, state],
     )
 
-    const ContextProvider = Context.Provider as ProviderExoticComponent<ProviderProps<IContext<Hook>>>
+    const ContextProvider = Context.Provider as ProviderExoticComponent<
+        ProviderProps<IContext<Hook>>
+    >
 
     return <ContextProvider value={value}>{children}</ContextProvider>
 }
