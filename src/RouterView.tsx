@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
-import { Context } from './Router'
+import React from 'react'
+import { useOatmilk } from './hooks'
 
 export function RouterView() {
-    const { route } = useContext(Context)
+    const { route } = useOatmilk()
 
     if (!route || !route.view) {
         return null
