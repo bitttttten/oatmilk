@@ -2,9 +2,9 @@
 
 ## Introduction
 
-..is really simple. Just send in the path as `url` into the Provider. oatmilk is only suited to parse the path of the URL, since the query parameters have a different semantic meaning. Although oatmilk will persist the query params and hash/fragment identifier client side on the first page load.
+With oatmilk server rendering is really simple, just send in the path as `url` into the Provider. oatmilk is only suited to parse the path of the URL since the query paramenters have a different semantic meaning.
 
-Let's start with some examples using some popular frameworks.
+Let's start with some examples using popular frameworks.
 
 ### hapijs
 
@@ -23,7 +23,7 @@ exports.method = function method(request, h) {
 
 ### lambda
 
-lambdas strip the query params from the path into an object. This is actually okay, since oatmilk is only suited to parse the path of the URL.
+lambdas strip the query params from the path into an object. No issue here, since oatmilk is only suited to parse the path of the URL.
 
 ```js
 exports.handler = function handler({ path }) {
@@ -39,7 +39,7 @@ exports.handler = function handler({ path }) {
 
 If it's your first time fetching data on the server with React, then this can seem a little complicated.
 
-Ensure that you have the appropriate hook on your route:
+Ensure that you have the appropriate `onEnter` hook on your route, and that it returns a Promise.
 
 ```js App.tsx
 export const routes: IRoutes = [
@@ -67,7 +67,7 @@ export const routes: IRoutes = [
 ]
 ```
 
-And when rendering your view, await on the result of `getMatchFromUrl` which will call the `onEnter` hook of the matched route or `Promise.resolve` if none is present.
+Then when rendering your view, await on the result of `getMatchFromUrl` which will call the `onEnter` hook of the matched route, or will resolve if none is matched.
 
 ```js server/controller/web.tsx
 const { Provider, getMatchFromUrl } = require('oatmilk')
@@ -96,11 +96,19 @@ You can read more about the [transition hooks](https://github.com/bitttttten/oat
 
 ## Custom hook callee
 
-If it's your first time fetching data on the server with React, then this can seem a little complicated. Here's a pseudo-reallife example which demonstrates how to inject/pass an instance of your store into the route and global hooks of oatmilk. In the example, a lot of assumptions have been made and they are not quite copy-and-pastable.
+You are able to customise how the transition hooks are called with a hookCallee function. Use this method to inject your own callee to completely customise the transition hooks. The hook callee is called with 2 arguments: the current route, and the state of the route. If no hookCallee is passed in, it will default to the code below which is essentially transparent currying. You must return a function which will be called in the transtion hook's phase, so you are able to call the hook with new arguments.
 
-Full docs coming soon.
+```js hookCallee.tsx
+import { IRoute, TRouteState, THook } from 'oatmilk'
 
-Client side:
+function hookCallee(route: IRoute, state: TRouteState) {
+    return (hook: THook) => hook(route, state)
+}
+```
+
+Here's an example of how to inject/pass an instance of your store into the route hooks and global hooks of oatmilk. Be aware that a lot of assumptions have been made in the snippets below and thus are not quite copy-and-pastable.
+
+Client:
 
 ```js index.jsx
 import React from 'react'

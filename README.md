@@ -1,10 +1,10 @@
-<img src="docs/img/oatmilk-cropped.png" alt="oatmilk" width="380" height="222" />
+<img src="docs/img/oatmilk-cropped.png" alt="oatmilk" width="380" height="auto" style="height: auto;" />
 
 # oatmilk
 
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![Github release version](https://img.shields.io/github/tag/bitttttten/oatmilk.svg)](https://github.com/bitttttten/oatmilk/releases)
-[![Commits since release](https://img.shields.io/github/commits-since/bitttttten/oatmilk/v2.0.0.svg)](https://github.com/bitttttten/oatmilk/compare/v2.0.0...master)
+[![Commits since release](https://img.shields.io/github/commits-since/bitttttten/oatmilk/v2.4.0.svg)](https://github.com/bitttttten/oatmilk/compare/v2.4.0...master)
 [![npm release version](https://img.shields.io/npm/v/oatmilk.svg)](https://www.npmjs.com/package/oatmilk)
 
 ## Introduction
@@ -33,10 +33,24 @@ oatmilk is a minimal, decoupled, routing library for React.
 
 ### Wrap your App with your routes
 
-You must included a route with a name of `notFound` since this is the fallback route.
+Each route is an object with the required shape:
+
+```sh
+{
+    name: string
+    path: path
+    view: ReactNode
+    onEnter?: function
+    onBeforeExit?: function
+}
+```
+
+Where `path` is any default pattern of [url-pattern](https://www.npmjs.com/package/url-pattern). The 2 optional properties `onEnter` and `onBeforeExit` are explained in the [transition hooks docs](https://github.com/bitttttten/oatmilk/blob/master/README.md#transition-hooks).
+
+You must included a route with a name of `notFound` since this is the fallback route. The order of the routes does not matter.
 
 ```js App.tsx
-import oatmilk, { IRoutes } from 'oatmilk'
+import oatmilk from 'oatmilk'
 
 const routes: oatmilk.IRoute[] = [
     {
@@ -47,6 +61,7 @@ const routes: oatmilk.IRoute[] = [
     },
     {
         name: 'user',
+        // 'named segment'
         path: '/user/:id',
         // use React.lazy to help with code splitting
         view: React.lazy(() => import('./Pages/User.tsx')),
@@ -69,7 +84,7 @@ ReactDOM.render(
 
 ### Render a RouterView
 
-The `RouterView` will render the current route's `view`
+The `RouterView` will render the current route's `view`.
 
 ```js App.tsx
 export function App() {
@@ -122,7 +137,7 @@ export const routes: IRoutes = [
             ArticlesStore.fetchTrendingArticles()
             TodoStore.fetchTodos()
         },
-        onExit: (route: IRoute, state: TRouteState) => {
+        onBeforeExit: (route: IRoute, state: TRouteState) => {
             console.log('I am called as you exit only the home route')
         },
     },
@@ -141,12 +156,12 @@ function onEnter(route: IRoute, state: TRouteState) {
     analytics.logPageView()
 }
 
-function onExit(route: IRoute, state: TRouteState) {
+function onBeforeExit(route: IRoute, state: TRouteState) {
     console.log('I am called as you exit any route')
 }
 
 ReactDOM.render(
-    <oatmilk.RouterProvider routes={routes} onEnter={onEnter} onExit={onExit}>
+    <oatmilk.RouterProvider routes={routes} onEnter={onEnter} onBeforeExit={onBeforeExit}>
         <App />
     </oatmilk.RouterProvider>,
     document.getElementById('root'),
