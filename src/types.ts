@@ -35,10 +35,14 @@ export declare interface IProvider<HookCallee, Hook>
     hookCallee?: HookCallee
 }
 
-export declare interface IContext<Hook> {
+export declare interface IContext {
     goTo: (toRouteName: TRouteName, toState?: TRouteState) => void
     getHref: (routeName: string, state?: TRouteState) => string
-    route: IRoute<Hook>
+    route: {
+		name: TRouteName
+		path: TRoutePath
+		view: ComponentType
+	}
     state: TRouteState
 }
 
