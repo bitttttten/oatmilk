@@ -1,19 +1,19 @@
 import { HTMLProps, ComponentType } from 'react'
 
-export declare type TText = string
-export declare type TRouteState = any
-export declare type TRouteName = string
-export declare type TRoutePath = string
-export declare type TURL = string
+export type TText = string
+export type TRouteState = any
+export type TRouteName = string
+export type TRoutePath = string
+export type TURL = string
 
-export declare type THook = (route: IRoute, state: TRouteState) => Promise<void>
+export type THook = (route: IRoute, state: TRouteState) => Promise<void>
 
-export declare type TDefaultHookCallee = (
+export type TDefaultHookCallee = (
     route: IRoute,
     state: any,
 ) => (hook: THook) => Promise<void>
 
-export declare interface IRoute<Hook = THook> {
+export interface IRoute<Hook = THook> {
     name: TRouteName
     path: TRoutePath
     view: ComponentType
@@ -21,12 +21,12 @@ export declare interface IRoute<Hook = THook> {
     onEnter?: Hook
 }
 
-export declare interface IData<Hook> {
+export interface IData<Hook> {
     route: IRoute<Hook>
     state: TRouteState
 }
 
-export declare interface IProvider<HookCallee, Hook>
+export interface IProvider<HookCallee = TDefaultHookCallee, Hook = THook>
     extends HTMLProps<HTMLElement> {
     routes: IRoute<Hook>[]
     url?: TURL
@@ -35,14 +35,14 @@ export declare interface IProvider<HookCallee, Hook>
     hookCallee?: HookCallee
 }
 
-export declare interface IContext<Hook> {
+export interface IContext<Hook> {
     goTo: (toRouteName: TRouteName, toState?: TRouteState) => void
     getHref: (routeName: string, state?: TRouteState) => string
     route: IRoute<Hook>
     state: TRouteState
 }
 
-export declare interface ILinkProps
+export interface ILinkProps
     extends Pick<
         HTMLProps<HTMLAnchorElement>,
         Exclude<keyof HTMLProps<HTMLAnchorElement>, 'href'>
