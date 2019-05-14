@@ -26,7 +26,7 @@ export interface IData<Hook> {
     state: TRouteState
 }
 
-export interface IProvider<HookCallee, Hook>
+export interface IProvider<HookCallee = TDefaultHookCallee, Hook = THook>
     extends HTMLProps<HTMLElement> {
     routes: IRoute<Hook>[]
     url?: TURL
@@ -35,7 +35,7 @@ export interface IProvider<HookCallee, Hook>
     hookCallee?: HookCallee
 }
 
-export interface IContext {
+export interface IContext<Hook> {
     goTo: (toRouteName: TRouteName, toState?: TRouteState) => void
     getHref: (routeName: string, state?: TRouteState) => string
     route: {
