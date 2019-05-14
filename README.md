@@ -122,7 +122,7 @@ function Navigation() {
 
 ## useOatmilk
 
-oatmilk has a React hook that provides routing utilities and information about the current route.
+oatmilk has a React hook `useOatmilk` that provides routing utilities and information about the current route.
 
 It returns the interface `oatmilk.IContext` which is:
 
