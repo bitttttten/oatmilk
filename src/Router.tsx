@@ -26,7 +26,7 @@ import {
 
 const SERVER = typeof window === 'undefined'
 
-export const Context = createContext<IContext<THook>>(null!)
+export const Context = createContext<IContext>(null!)
 
 function defaultHookCallee(route: IRoute, state: TRouteState) {
     return (hook: THook) => hook(route, state)
@@ -157,15 +157,15 @@ export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
         () => ({
             goTo,
             state,
-            route,
+            route: {
+                name: route.name,
+                path: route.path,
+                view: route.view,
+            },
             getHref,
         }),
-        [route.name, state],
+        [route.name, route.path, route.view, state],
     )
 
-    const ContextProvider = Context.Provider as ProviderExoticComponent<
-        ProviderProps<IContext<Hook>>
-    >
-
-    return <ContextProvider value={value}>{children}</ContextProvider>
+    return <Context.Provider value={value}>{children}</Context.Provider>
 }

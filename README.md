@@ -120,6 +120,29 @@ function Navigation() {
 
 ## API
 
+## useOatmilk
+
+oatmilk has a React hook `useOatmilk` that provides routing utilities and information about the current route.
+
+It returns the interface `oatmilk.IContext` which is:
+
+```js
+{
+	// used to to change routes
+	goTo: (toRouteName: string, toState?: object) => void
+	// used to generate the href of a link element of a route
+	getHref: (routeName: string, state?: object) => string
+	// information about the current route
+    route: {
+		name: string
+		path: string
+		view: ReactComponent
+	}
+	// the current state object
+    state: object
+}
+```
+
 ### Transition Hooks
 
 oatmilk has 2 transition hooks: onEnter, and onBeforeEnter. You can use it for the global routing context, and also for a single route's context.

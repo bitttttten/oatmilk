@@ -1,16 +1,22 @@
-import React, { MouseEvent, useContext } from 'react'
-import { Context } from './Router'
+import React, { MouseEvent } from 'react'
+import { useOatmilk } from './hooks'
 import { ILinkProps } from './types'
 
-export function Link({ onClick: onClickFromUser, children, routeName, state, ...props }: ILinkProps) {
-    const { goTo, getHref } = useContext(Context)
+export function Link({
+    onClick: onClickFromUser,
+    children,
+    routeName,
+    state,
+    ...props
+}: ILinkProps) {
+    const { goTo, getHref } = useOatmilk()
 
-    const onClick = (e: MouseEvent<HTMLAnchorElement>) => {
+	const onClick = (e: MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault()
-		goTo(routeName, state)
-		if (typeof onClickFromUser === 'function') {
-			onClickFromUser(e)
-		}
+        goTo(routeName, state)
+        if (typeof onClickFromUser === 'function') {
+            onClickFromUser(e)
+        }
     }
     const href = getHref(routeName, state)
 
