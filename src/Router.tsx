@@ -129,7 +129,7 @@ export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
         }
 
         const url = deriveUrlFromPathAndState(route.path, state)
-        const historyState = { routeName: route.name, state }
+        const historyState = { routeName: route.name, state, _from_oatmilk: true }
         if (url !== window.location.pathname) {
             window.history.pushState(historyState, '', url)
         } else {
@@ -146,7 +146,9 @@ export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
         if (SERVER) return
 
         function onUserNavigating({ state: historyState }: PopStateEvent) {
-            goTo(historyState.routeName, historyState.state)
+            if (historyState.routeName && historyState.state && historyState._from_oatmilk) {
+                goTo(historyState.routeName, historyState.state)
+            }
         }
 
         window.addEventListener('popstate', onUserNavigating)
