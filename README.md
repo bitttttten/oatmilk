@@ -128,17 +128,17 @@ It returns the interface `oatmilk.IContext` which is:
 
 ```js
 {
-	// used to to change routes
-	goTo: (toRouteName: string, toState?: object) => void
-	// used to generate the href of a link element of a route
-	getHref: (routeName: string, state?: object) => string
-	// information about the current route
+    // used to to change routes
+    goTo: (toRouteName: string, toState?: object) => void
+    // used to generate the href of a link element of a route
+    getHref: (routeName: string, state?: object) => string
+    // information about the current route
     route: {
-		name: string
-		path: string
-		view: ReactComponent
-	}
-	// the current state object
+        name: string
+        path: string
+        view: ReactComponent
+    }
+    // the current state object
     state: object
 }
 ```
