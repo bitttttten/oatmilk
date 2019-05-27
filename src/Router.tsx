@@ -81,7 +81,7 @@ export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
                 // @ts-ignore
                 hookCallee(toRoute, toState)(onEnter)
             }
-            if (route.onEnter) {
+            if (toRoute.onEnter) {
                 // @ts-ignore
                 hookCallee(toRoute, toState)(toRoute.onEnter)
             }

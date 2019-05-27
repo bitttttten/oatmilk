@@ -189,6 +189,60 @@ describe('Transition Hooks', () => {
         expect(userRouteWithHooks.onBeforeExit).toHaveBeenCalledTimes(1)
         expect(notFoundWithHooks.onBeforeExit).toHaveBeenCalledTimes(0)
     })
+    test('to and from routes, with and without hooks', async () => {
+        const homeRouteWithHooks = {
+            ...homeRoute,
+            onEnter: jest.fn(),
+            onBeforeExit: jest.fn(),
+        }
+        const userRouteWithOutHooks = {
+            ...userRoute,
+        }
+        const notFoundWithoutHooks = {
+            ...notFoundRoute,
+        }
+        const routes: IRoute[] = [
+            homeRouteWithHooks,
+            userRouteWithOutHooks,
+            notFoundWithoutHooks,
+        ]
+        const { getByText } = render(
+            <Provider url='/' routes={routes}>
+                <RouterView />
+                <Link routeName='home'>link to home</Link>
+                <Link routeName='user' state={{ id: 'bitttttten' }}>
+                    link to bitttttten
+                </Link>
+                <Link routeName='notFound'>link to 404 page</Link>
+            </Provider>,
+        )
+        expect(homeRouteWithHooks.onEnter).toHaveBeenCalledTimes(1)
+        expect(homeRouteWithHooks.onBeforeExit).toHaveBeenCalledTimes(0)
+
+        act(() => {
+            fireEvent.click(getByText(/link to bitttttten/))
+        })
+        await waitForElement(() => getByText(/this is the user page/))
+
+        expect(homeRouteWithHooks.onEnter).toHaveBeenCalledTimes(1)
+        expect(homeRouteWithHooks.onBeforeExit).toHaveBeenCalledTimes(1)
+
+        act(() => {
+            fireEvent.click(getByText(/link to home/))
+        })
+        await waitForElement(() => getByText(/this is the homepage/))
+
+        expect(homeRouteWithHooks.onEnter).toHaveBeenCalledTimes(2)
+        expect(homeRouteWithHooks.onBeforeExit).toHaveBeenCalledTimes(1)
+
+        act(() => {
+            fireEvent.click(getByText(/link to 404 page/))
+        })
+        await waitForElement(() => getByText(/this is the homepage/))
+
+        expect(homeRouteWithHooks.onEnter).toHaveBeenCalledTimes(2)
+        expect(homeRouteWithHooks.onBeforeExit).toHaveBeenCalledTimes(2)
+    })
 })
 
 describe('getRouteFromUrl', () => {
