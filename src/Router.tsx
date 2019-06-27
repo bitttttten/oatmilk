@@ -16,12 +16,14 @@ import {
     IRoute,
     THook,
     TDefaultHookCallee,
+    TQuery,
 } from './types'
 import {
     getRouteFromUrl,
     getStateFromUrl,
     getRouteByName,
     deriveUrlFromPathAndState,
+    parseQueryStringIntoObject,
 } from './utils'
 
 const SERVER = typeof window === 'undefined'
@@ -35,6 +37,7 @@ function defaultHookCallee(route: IRoute, state: TRouteState) {
 export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
     children,
     routes,
+    queryString,
     url = window.location.pathname,
     onBeforeExit,
     onEnter,
@@ -57,8 +60,9 @@ export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
 
     const firstRoute = getRouteFromUrl<Hook>(routes, url)
 
-    const [{ route, state }, setData] = useState<IData<Hook>>({
+    const [{ route, state, query }, setData] = useState<IData<Hook>>({
         route: firstRoute!,
+        query: parseQueryStringIntoObject(queryString),
         state: firstRoute ? getStateFromUrl(firstRoute.path, url) : {},
     })
 
@@ -86,7 +90,7 @@ export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
                 hookCallee(toRoute, toState)(toRoute.onEnter)
             }
 
-            setData({ route: toRoute, state: toState })
+            setData({ route: toRoute, state: toState, query: {} })
         },
         [routes, route, state],
     )
@@ -159,6 +163,7 @@ export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
         () => ({
             goTo,
             state,
+            query,
             route: {
                 name: route.name,
                 path: route.path,

@@ -1,5 +1,5 @@
 import 'jest-dom/extend-expect'
-import React from 'react'
+import React, { Fragment } from 'react'
 import {
     act,
     cleanup,
@@ -10,7 +10,13 @@ import {
 import { Link, Provider } from '../index'
 import { RouterView } from '../RouterView'
 import { IRoute } from '../types'
-import { getRouteByName, getRouteFromUrl, getStateFromUrl } from '../utils'
+import {
+    getRouteByName,
+    getRouteFromUrl,
+    getStateFromUrl,
+    parseQueryStringIntoObject,
+} from '../utils'
+import { useOatmilk } from '../hooks'
 
 afterEach(cleanup)
 
@@ -79,6 +85,35 @@ describe('<Link>', () => {
                 </Provider>,
             )
         }).toThrow()
+    })
+    test('query string matches', async () => {
+        function Component() {
+            const { query } = useOatmilk()
+            return (
+                <Fragment>
+                    <p>Name is {query.name}</p>
+                    <p>Library is {query.library}</p>
+                </Fragment>
+            )
+        }
+        const routes = [
+            {
+                name: 'home',
+                path: '/',
+                view: Component,
+            },
+        ]
+        const { getByText } = render(
+            <Provider
+                url='/'
+                queryString='name=bitttttten&library=oatmilk'
+                routes={routes}
+            >
+                <RouterView />
+            </Provider>,
+        )
+        expect(getByText(/Name is bitttttten/)).toBeTruthy()
+        expect(getByText(/Library is oatmilk/)).toBeTruthy()
     })
 })
 
@@ -278,6 +313,28 @@ describe('getStateFromUrl', () => {
     test('returns an object with `id` of `bitttttten` in the user route', () => {
         expect(getStateFromUrl('/user/:id', '/user/bitttttten')).toEqual({
             id: 'bitttttten',
+        })
+    })
+})
+
+describe('parseQueryStringIntoObject', () => {
+    test('returns empty object when passed no query string', () => {
+        expect(parseQueryStringIntoObject()).toEqual({})
+        expect(parseQueryStringIntoObject('')).toEqual({})
+        // @ts-ignore
+        expect(parseQueryStringIntoObject(() => {})).toEqual({})
+        // @ts-ignore
+        expect(parseQueryStringIntoObject({ test: true })).toEqual({})
+    })
+    test('returns expected', () => {
+        expect(
+            parseQueryStringIntoObject(
+                'test=true&oatmilk=true&thisshouldbe=successful',
+            ),
+        ).toEqual({
+            test: 'true',
+            oatmilk: 'true',
+            thisshouldbe: 'successful',
         })
     })
 })

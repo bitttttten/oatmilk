@@ -5,6 +5,8 @@ export type TRouteState = any
 export type TRouteName = string
 export type TRoutePath = string
 export type TURL = string
+export type TQuery = { [key: string]: string }
+export type TQueryString = string
 
 export type THook = (route: IRoute, state: TRouteState) => Promise<void>
 
@@ -24,11 +26,13 @@ export interface IRoute<Hook = THook> {
 export interface IData<Hook> {
     route: IRoute<Hook>
     state: TRouteState
+    query: TQuery
 }
 
 export interface IProvider<HookCallee = TDefaultHookCallee, Hook = THook>
     extends HTMLProps<HTMLElement> {
     routes: IRoute<Hook>[]
+    queryString?: TQueryString
     url?: TURL
     onBeforeExit?: Hook
     onEnter?: Hook
@@ -42,7 +46,8 @@ export interface IContext {
 		name: TRouteName
 		path: TRoutePath
 		view: ComponentType
-	}
+    }
+    query: TQuery
     state: TRouteState
 }
 

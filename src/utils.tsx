@@ -1,5 +1,5 @@
 import UrlPattern from 'url-pattern'
-import { IRoute, TRouteState, TRouteName, TURL, TRoutePath } from './types'
+import { IRoute, TRouteState, TRouteName, TURL, TRoutePath, TQuery } from './types'
 
 export function getRouteFromUrl<T>(
     routes: IRoute<T>[],
@@ -55,4 +55,16 @@ export function getMatchWithCalleeFromUrl(
 ) {
     const { route, state } = getRouteAndStateFromUrl(routes, url)
     return route.onEnter && hookCallee(route, state)(route.onEnter)
+}
+
+export function parseQueryStringIntoObject(qs?: string) {
+    if (!qs || typeof qs !== 'string') {
+        return {}
+    }
+    const params: TQuery = {}
+    qs.split("&").forEach(segment => {
+        const [key,value] = segment.split('=')
+        params[key] = value
+    })
+    return params
 }
