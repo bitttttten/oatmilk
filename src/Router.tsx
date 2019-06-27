@@ -67,7 +67,7 @@ export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
             const toRoute = getRouteByName(routes, toRouteName)
 
             if (!toRoute) {
-                throw new Error(`Route ${toRouteName} does not exist`)
+                throw new Error(`[oatmilk] Route ${toRouteName} does not exist`)
             }
 
             await Promise.all([
@@ -96,7 +96,7 @@ export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
             const route = getRouteByName(routes, routeName)
             if (!route) {
                 throw new Error(
-                    `Failed to generate href: route "${routeName}" does not exist`,
+                    `[oatmilk] Failed to generate href: route "${routeName}" does not exist`,
                 )
             }
             return deriveUrlFromPathAndState(route.path, state)
