@@ -63,7 +63,9 @@ export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
     const [{ route, state, query }, setData] = useState<IData<Hook>>({
         route: firstRoute!,
         query: parseQueryStringIntoObject(
-            !SERVER && !queryString ? window.location.search : queryString,
+            !SERVER && !queryString
+                ? window.location.search.substr(1)
+                : queryString,
         ),
         state: firstRoute ? getStateFromUrl(firstRoute.path, url) : {},
     })
