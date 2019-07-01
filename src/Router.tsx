@@ -60,9 +60,9 @@ export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
 
     const firstRoute = getRouteFromUrl<Hook>(routes, url)
 
-    const [{ route, state, query }, setData] = useState<IData<Hook>>({
+    const [{ route, state, queryParams }, setData] = useState<IData<Hook>>({
         route: firstRoute!,
-        query: parseQueryStringIntoObject(
+        queryParams: parseQueryStringIntoObject(
             !SERVER && !queryString
                 ? window.location.search.substr(1)
                 : queryString,
@@ -95,20 +95,20 @@ export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
                 hookCallee(toRoute, toState)(toRoute.onEnter)
             }
 
-            setData({ route: toRoute, state: toState, query: {} })
+            setData({ route: toRoute, state: toState, queryParams: {} })
         },
         [routes, route, state],
     )
 
     const getHref = useCallback(
-        (routeName: string, state: TRouteState = {}) => {
+        (routeName: string, state: TRouteState = {}, queryParams?: TQuery) => {
             const route = getRouteByName(routes, routeName)
             if (!route) {
                 throw new Error(
                     `[oatmilk] Failed to generate href: route "${routeName}" does not exist`,
                 )
             }
-            return deriveUrlFromPathAndState(route.path, state)
+            return deriveUrlFromPathAndState(route.path, state, queryParams)
         },
         [routes],
     )
@@ -176,7 +176,7 @@ export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
         () => ({
             goTo,
             state,
-            query,
+            queryParams,
             route: {
                 name: route.name,
                 path: route.path,

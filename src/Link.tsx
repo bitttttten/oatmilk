@@ -5,6 +5,7 @@ import { ILinkProps } from './types'
 export function Link({
     onClick: onClickFromUser,
     children,
+    queryParams,
     routeName,
     state,
     ...props
@@ -18,7 +19,7 @@ export function Link({
             onClickFromUser(e)
         }
     }
-    const href = getHref(routeName, state)
+    const href = getHref(routeName, state, queryParams)
 
     return (
         <a {...props} href={href} onClick={onClick}>

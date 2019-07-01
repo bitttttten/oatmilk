@@ -1,5 +1,13 @@
 import UrlPattern from 'url-pattern'
-import { IRoute, TRouteState, TRouteName, TURL, TRoutePath, TQuery } from './types'
+import {
+    IRoute,
+    TRouteState,
+    TRouteName,
+    TURL,
+    TRoutePath,
+    TQuery,
+    IQueryObject,
+} from './types'
 
 export function getRouteFromUrl<T>(
     routes: IRoute<T>[],
@@ -26,9 +34,12 @@ export function getStateFromUrl(
 export function deriveUrlFromPathAndState(
     path: TRoutePath,
     state: TRouteState,
+    query?: TQuery,
     Matcher: any = UrlPattern,
 ) {
-    return new Matcher(path).stringify(state)
+    const pathname = new Matcher(path).stringify(state)
+    const search = parseObjectIntoQueryString(query)
+    return `${pathname}${search}`
 }
 
 function getRouteAndStateFromUrl<T>(routes: IRoute<T>[], url: TURL) {
@@ -57,14 +68,23 @@ export function getMatchWithCalleeFromUrl(
     return route.onEnter && hookCallee(route, state)(route.onEnter)
 }
 
-export function parseQueryStringIntoObject(qs?: string) {
-    if (!qs || typeof qs !== 'string') {
+export function parseQueryStringIntoObject(queryString?: string) {
+    if (!queryString || typeof queryString !== 'string') {
         return {}
     }
     const params: TQuery = {}
-    qs.split("&").forEach(segment => {
-        const [key,value] = segment.split('=')
+    queryString.split('&').forEach(segment => {
+        const [key, value] = segment.split('=')
         params[key] = value
     })
     return params
+}
+
+export function parseObjectIntoQueryString(queryString?: IQueryObject) {
+    if (!queryString || typeof queryString !== 'object') {
+        return ''
+    }
+    return `?${Object.keys(queryString)
+        .map(key => key + '=' + queryString[key])
+        .join('&')}`
 }

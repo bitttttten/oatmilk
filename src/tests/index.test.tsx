@@ -15,6 +15,7 @@ import {
     getRouteFromUrl,
     getStateFromUrl,
     parseQueryStringIntoObject,
+    parseObjectIntoQueryString,
 } from '../utils'
 import { useOatmilk } from '../hooks'
 
@@ -77,6 +78,34 @@ describe('<Link>', () => {
         })
         await waitForElement(() => getByText(/this is the homepage/))
     })
+    test('renders urls correctly', async () => {
+        const { getByText } = render(
+            <Provider url='/' routes={routes}>
+                <RouterView />
+                <Link routeName='home'>link to home</Link>
+                <Link routeName='user' state={{ id: 'bitttttten' }}>
+                    link to bitttttten
+                </Link>
+                <Link
+                    routeName='user'
+                    state={{ id: 'soulpicks' }}
+                    queryParams={{
+                        queryParamsTest: true,
+                        'url-with-dashes': 'it-is-successful',
+                    }}
+                >
+                    link to soulpicks
+                </Link>
+            </Provider>,
+        )
+        expect(getByText(/link to home/).getAttribute('href')).toBe('/')
+        expect(getByText(/link to bitttttten/).getAttribute('href')).toBe(
+            '/user/bitttttten',
+        )
+        expect(getByText(/link to soulpicks/).getAttribute('href')).toBe(
+            '/user/soulpicks?queryParamsTest=true&url-with-dashes=it-is-successful',
+        )
+    })
     test('throws error with an invalid route', () => {
         expect(() => {
             render(
@@ -86,13 +115,13 @@ describe('<Link>', () => {
             )
         }).toThrow()
     })
-    test('query string matches', async () => {
+    test('query params match', async () => {
         function Component() {
-            const { query } = useOatmilk()
+            const { queryParams } = useOatmilk()
             return (
                 <Fragment>
-                    <p>Name is {query.name}</p>
-                    <p>Library is {query.library}</p>
+                    <p>Name is {queryParams.name}</p>
+                    <p>Library is {queryParams.library}</p>
                 </Fragment>
             )
         }
@@ -336,5 +365,27 @@ describe('parseQueryStringIntoObject', () => {
             oatmilk: 'true',
             thisshouldbe: 'successful',
         })
+    })
+})
+
+describe('parseObjectIntoQueryString', () => {
+    test('returns empty string when sent no object', () => {
+        expect(parseObjectIntoQueryString()).toEqual('')
+        // @ts-ignore
+        expect(parseObjectIntoQueryString('')).toEqual('')
+        // @ts-ignore
+        expect(parseObjectIntoQueryString(() => {})).toEqual('')
+    })
+    test('returns expected', () => {
+        expect(
+            parseObjectIntoQueryString({
+                test: true,
+                oatmilk: 'true',
+                thisshouldbe: 'successful',
+                alphabeticalOrder: 'does-not-matter',
+            }),
+        ).toEqual(
+            '?test=true&oatmilk=true&thisshouldbe=successful&alphabeticalOrder=does-not-matter',
+        )
     })
 })

@@ -7,13 +7,15 @@ export type TRoutePath = string
 export type TURL = string
 export type TQuery = { [key: string]: string }
 export type TQueryString = string
-
 export type THook = (route: IRoute, state: TRouteState) => Promise<void>
-
 export type TDefaultHookCallee = (
     route: IRoute,
     state: any,
 ) => (hook: THook) => Promise<void>
+
+export interface IQueryObject {
+    [key: string]: any
+}
 
 export interface IRoute<Hook = THook> {
     name: TRouteName
@@ -26,7 +28,7 @@ export interface IRoute<Hook = THook> {
 export interface IData<Hook> {
     route: IRoute<Hook>
     state: TRouteState
-    query: TQuery
+    queryParams: TQuery
 }
 
 export interface IProvider<HookCallee = TDefaultHookCallee, Hook = THook>
@@ -41,13 +43,13 @@ export interface IProvider<HookCallee = TDefaultHookCallee, Hook = THook>
 
 export interface IContext {
     goTo: (toRouteName: TRouteName, toState?: TRouteState) => void
-    getHref: (routeName: string, state?: TRouteState) => string
+    getHref: (routeName: string, state?: TRouteState, query?: TQuery) => string
     route: {
 		name: TRouteName
 		path: TRoutePath
 		view: ComponentType
     }
-    query: TQuery
+    queryParams: TQuery
     state: TRouteState
 }
 
@@ -58,4 +60,5 @@ export interface ILinkProps
     > {
     routeName: TRouteName
     state?: TRouteState
+    queryParams?: IQueryObject
 }
