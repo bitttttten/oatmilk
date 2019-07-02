@@ -376,6 +376,9 @@ describe('parseObjectIntoQueryString', () => {
         // @ts-ignore
         expect(parseObjectIntoQueryString(() => {})).toEqual('')
     })
+    test('returns empty with no object', () => {
+        expect(parseObjectIntoQueryString({})).toEqual('')
+    })
     test('returns expected', () => {
         expect(
             parseObjectIntoQueryString({
