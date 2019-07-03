@@ -14,7 +14,7 @@ export function Link({
 
 	const onClick = (e: MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault()
-        goTo(routeName, state)
+        goTo(routeName, state, queryParams)
         if (typeof onClickFromUser === 'function') {
             onClickFromUser(e)
         }

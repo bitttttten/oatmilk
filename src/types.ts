@@ -42,8 +42,8 @@ export interface IProvider<HookCallee = TDefaultHookCallee, Hook = THook>
 }
 
 export interface IContext {
-    goTo: (toRouteName: TRouteName, toState?: TRouteState) => void
-    getHref: (routeName: string, state?: TRouteState, query?: TQuery) => string
+    goTo: (toRouteName: TRouteName, toState?: TRouteState, queryParams?: TQuery) => void
+    getHref: (routeName: string, state?: TRouteState, queryParams?: TQuery) => string
     route: {
 		name: TRouteName
 		path: TRoutePath

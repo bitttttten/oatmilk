@@ -117,6 +117,65 @@ describe('<Link>', () => {
     })
     test('query params match', async () => {
         function Component() {
+            const { state, queryParams } = useOatmilk()
+            return (
+                <Fragment>
+                    <span>{`testId is ${state.testId}`}</span>
+                    {queryParams.test && <span>{`query param test is ${queryParams.test}`}</span>}
+                </Fragment>
+            )
+        }
+        const routes = [
+            {
+                name: 'home',
+                path: '/:testId',
+                view: Component,
+            },
+        ]
+        const { getByText } = render(
+            <Provider url='/123' queryString='test=init' routes={routes}>
+                <RouterView />
+                <Link
+                    routeName='home'
+                    state={{ testId: 'idA' }}
+                    queryParams={{ test: 'a' }}
+                >
+                    link to a
+                </Link>
+                <Link
+                    routeName='home'
+                    state={{ testId: 'idB' }}
+                    queryParams={{ test: 'b' }}
+                >
+                    link to b
+                </Link>
+                <Link routeName='home' state={{ testId: 'idC' }}>
+                    link to c
+                </Link>
+            </Provider>,
+        )
+        expect(getByText(/testId is 123/)).toBeTruthy()
+        expect(getByText(/query param test is init/)).toBeTruthy()
+        expect(getByText(/link to a/)).toBeTruthy()
+        expect(getByText(/link to b/)).toBeTruthy()
+        expect(getByText(/link to c/)).toBeTruthy()
+        act(() => {
+            fireEvent.click(getByText(/link to a/))
+        })
+        await waitForElement(() => getByText(/testId is idA/))
+        expect(getByText(/query param test is a/)).toBeTruthy()
+        act(() => {
+            fireEvent.click(getByText(/link to b/))
+        })
+        await waitForElement(() => getByText(/testId is idB/))
+        expect(getByText(/query param test is b/)).toBeTruthy()
+        act(() => {
+            fireEvent.click(getByText(/link to c/))
+        })
+        await waitForElement(() => getByText(/testId is idC/))
+    })
+    test('navigating through query params work', async () => {
+        function Component() {
             const { queryParams } = useOatmilk()
             return (
                 <Fragment>

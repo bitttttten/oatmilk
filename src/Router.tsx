@@ -71,7 +71,7 @@ export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
     })
 
     const goTo = useCallback(
-        async (toRouteName: TRouteName, toState: TRouteState = {}) => {
+        async (toRouteName: TRouteName, toState: TRouteState = {}, toQuery: TQuery = {}) => {
             const toRoute = getRouteByName(routes, toRouteName)
 
             if (!toRoute) {
@@ -81,21 +81,21 @@ export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
             await Promise.all([
                 route.onBeforeExit &&
                     // @ts-ignore
-                    hookCallee(route, state)(route.onBeforeExit),
+                    hookCallee(route, state, queryParams)(route.onBeforeExit),
                 // @ts-ignore
-                onBeforeExit && hookCallee(route, state)(onBeforeExit),
+                onBeforeExit && hookCallee(route, state, queryParams)(onBeforeExit),
             ])
 
             if (onEnter) {
                 // @ts-ignore
-                hookCallee(toRoute, toState)(onEnter)
+                hookCallee(toRoute, toState, toQuery)(onEnter)
             }
             if (toRoute.onEnter) {
                 // @ts-ignore
-                hookCallee(toRoute, toState)(toRoute.onEnter)
+                hookCallee(toRoute, toState, toQuery)(toRoute.onEnter)
             }
 
-            setData({ route: toRoute, state: toState, queryParams: {} })
+            setData({ route: toRoute, state: toState, queryParams: toQuery })
         },
         [routes, route, state],
     )
