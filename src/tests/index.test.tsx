@@ -6,7 +6,8 @@ import {
     fireEvent,
     render,
     waitForElement,
-} from 'react-testing-library'
+    waitForElementToBeRemoved,
+} from '@testing-library/react'
 import { Link, Provider } from '../index'
 import { RouterView } from '../RouterView'
 import { IRoute } from '../types'
@@ -121,7 +122,9 @@ describe('<Link>', () => {
             return (
                 <Fragment>
                     <span>{`testId is ${state.testId}`}</span>
-                    {queryParams.test && <span>{`query param test is ${queryParams.test}`}</span>}
+                    {queryParams.test && (
+                        <span>{`query param test is ${queryParams.test}`}</span>
+                    )}
                 </Fragment>
             )
         }
@@ -152,6 +155,9 @@ describe('<Link>', () => {
                 <Link routeName='home' state={{ testId: 'idC' }}>
                     link to c
                 </Link>
+                <Link routeName='home' state={{ testId: 'idD' }}>
+                    link to d
+                </Link>
             </Provider>,
         )
         expect(getByText(/testId is 123/)).toBeTruthy()
@@ -162,17 +168,35 @@ describe('<Link>', () => {
         act(() => {
             fireEvent.click(getByText(/link to a/))
         })
+        await Promise.all([
+            waitForElementToBeRemoved(() => getByText(/testId is 123/)),
+            waitForElementToBeRemoved(() =>
+                getByText(/query param test is init/),
+            ),
+        ])
         await waitForElement(() => getByText(/testId is idA/))
-        expect(getByText(/query param test is a/)).toBeTruthy()
+        await waitForElement(() => getByText(/query param test is a/))
         act(() => {
             fireEvent.click(getByText(/link to b/))
         })
+        await Promise.all([
+            waitForElementToBeRemoved(() => getByText(/testId is idA/)),
+            waitForElementToBeRemoved(() => getByText(/query param test is a/)),
+        ])
         await waitForElement(() => getByText(/testId is idB/))
-        expect(getByText(/query param test is b/)).toBeTruthy()
+        await waitForElement(() => getByText(/query param test is b/))
         act(() => {
             fireEvent.click(getByText(/link to c/))
         })
+        await waitForElementToBeRemoved(() =>
+            getByText(/query param test is b/),
+        )
         await waitForElement(() => getByText(/testId is idC/))
+        act(() => {
+            fireEvent.click(getByText(/link to d/))
+        })
+        await waitForElementToBeRemoved(() => getByText(/testId is idC/))
+        await waitForElement(() => getByText(/testId is idD/))
     })
     test('navigating through query params work', async () => {
         function Component() {
