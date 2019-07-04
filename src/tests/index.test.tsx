@@ -6,7 +6,8 @@ import {
     fireEvent,
     render,
     waitForElement,
-} from 'react-testing-library'
+    waitForElementToBeRemoved,
+} from '@testing-library/react'
 import { Link, Provider } from '../index'
 import { RouterView } from '../RouterView'
 import { IRoute } from '../types'
@@ -116,6 +117,88 @@ describe('<Link>', () => {
         }).toThrow()
     })
     test('query params match', async () => {
+        function Component() {
+            const { state, queryParams } = useOatmilk()
+            return (
+                <Fragment>
+                    <span>{`testId is ${state.testId}`}</span>
+                    {queryParams.test && (
+                        <span>{`query param test is ${queryParams.test}`}</span>
+                    )}
+                </Fragment>
+            )
+        }
+        const routes = [
+            {
+                name: 'home',
+                path: '/:testId',
+                view: Component,
+            },
+        ]
+        const { getByText } = render(
+            <Provider url='/123' queryString='test=init' routes={routes}>
+                <RouterView />
+                <Link
+                    routeName='home'
+                    state={{ testId: 'idA' }}
+                    queryParams={{ test: 'a' }}
+                >
+                    link to a
+                </Link>
+                <Link
+                    routeName='home'
+                    state={{ testId: 'idB' }}
+                    queryParams={{ test: 'b' }}
+                >
+                    link to b
+                </Link>
+                <Link routeName='home' state={{ testId: 'idC' }}>
+                    link to c
+                </Link>
+                <Link routeName='home' state={{ testId: 'idD' }}>
+                    link to d
+                </Link>
+            </Provider>,
+        )
+        expect(getByText(/testId is 123/)).toBeTruthy()
+        expect(getByText(/query param test is init/)).toBeTruthy()
+        expect(getByText(/link to a/)).toBeTruthy()
+        expect(getByText(/link to b/)).toBeTruthy()
+        expect(getByText(/link to c/)).toBeTruthy()
+        act(() => {
+            fireEvent.click(getByText(/link to a/))
+        })
+        await Promise.all([
+            waitForElementToBeRemoved(() => getByText(/testId is 123/)),
+            waitForElementToBeRemoved(() =>
+                getByText(/query param test is init/),
+            ),
+        ])
+        await waitForElement(() => getByText(/testId is idA/))
+        await waitForElement(() => getByText(/query param test is a/))
+        act(() => {
+            fireEvent.click(getByText(/link to b/))
+        })
+        await Promise.all([
+            waitForElementToBeRemoved(() => getByText(/testId is idA/)),
+            waitForElementToBeRemoved(() => getByText(/query param test is a/)),
+        ])
+        await waitForElement(() => getByText(/testId is idB/))
+        await waitForElement(() => getByText(/query param test is b/))
+        act(() => {
+            fireEvent.click(getByText(/link to c/))
+        })
+        await waitForElementToBeRemoved(() =>
+            getByText(/query param test is b/),
+        )
+        await waitForElement(() => getByText(/testId is idC/))
+        act(() => {
+            fireEvent.click(getByText(/link to d/))
+        })
+        await waitForElementToBeRemoved(() => getByText(/testId is idC/))
+        await waitForElement(() => getByText(/testId is idD/))
+    })
+    test('navigating through query params work', async () => {
         function Component() {
             const { queryParams } = useOatmilk()
             return (
@@ -375,6 +458,9 @@ describe('parseObjectIntoQueryString', () => {
         expect(parseObjectIntoQueryString('')).toEqual('')
         // @ts-ignore
         expect(parseObjectIntoQueryString(() => {})).toEqual('')
+    })
+    test('returns empty with no object', () => {
+        expect(parseObjectIntoQueryString({})).toEqual('')
     })
     test('returns expected', () => {
         expect(

@@ -81,7 +81,11 @@ export function parseQueryStringIntoObject(queryString?: string) {
 }
 
 export function parseObjectIntoQueryString(queryString?: IQueryObject) {
-    if (!queryString || typeof queryString !== 'object') {
+    if (
+        !queryString ||
+        typeof queryString !== 'object' ||
+        Object.keys(queryString).length === 0
+    ) {
         return ''
     }
     return `?${Object.keys(queryString)
