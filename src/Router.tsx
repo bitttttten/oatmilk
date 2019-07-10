@@ -183,8 +183,9 @@ export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
                 view: route.view,
             },
             getHref,
+            routes,
         }),
-        [route.name, route.path, route.view, state],
+        [route.name, route.path, routes, route.view, state],
     )
 
     return <Context.Provider value={value}>{children}</Context.Provider>
