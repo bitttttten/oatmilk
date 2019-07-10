@@ -49,6 +49,7 @@ export interface IContext {
 		path: TRoutePath
 		view: ComponentType
     }
+    routes: IRoute<any>[]
     queryParams: TQuery
     state: TRouteState
 }

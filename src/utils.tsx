@@ -19,6 +19,7 @@ export function getRouteFromUrl<T>(
         getRouteByName(routes, 'notFound')
     )
 }
+
 export function getRouteByName<T>(routes: IRoute<T>[], routeName: TRouteName) {
     return routes.find(({ name }) => name === routeName)
 }
