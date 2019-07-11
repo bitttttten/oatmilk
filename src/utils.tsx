@@ -7,6 +7,7 @@ import {
     TRoutePath,
     TQuery,
     IQueryObject,
+    THook,
 } from './types'
 
 export function getRouteFromUrl<T>(
@@ -43,29 +44,29 @@ export function deriveUrlFromPathAndState(
     return `${pathname}${search}`
 }
 
-function getRouteAndStateFromUrl<T>(routes: IRoute<T>[], url: TURL) {
-    const route = getRouteFromUrl(routes, url)!
+function getRouteAndStateFromUrl<T = THook>(routes: IRoute<T>[], url: TURL) {
+    const route = getRouteFromUrl<T>(routes, url)!
     const state = getStateFromUrl(route.path, url)
     return { route, state }
 }
 
-export function getMatchFromUrl(routes: IRoute[], url: TURL): Promise<void> {
+export function getMatchFromUrl<T = THook>(routes: IRoute<T>[], url: TURL): Promise<void> {
     const {
         route: { onEnter, ...route },
         state,
-    } = getRouteAndStateFromUrl(routes, url)
-    return onEnter ? onEnter(route, state) : Promise.resolve()
+    } = getRouteAndStateFromUrl<T>(routes, url)
+    return onEnter && typeof onEnter === 'function' ? onEnter(route, state) : Promise.resolve()
 }
 
-export function getMatchWithCalleeFromUrl(
+export function getMatchWithCalleeFromUrl<T = THook>(
     hookCallee: (
-        route: IRoute,
+        route: IRoute<T>,
         state: TRouteState,
     ) => (hook: any) => Promise<any>,
-    routes: IRoute[],
+    routes: IRoute<T>[],
     url: TURL,
 ) {
-    const { route, state } = getRouteAndStateFromUrl(routes, url)
+    const { route, state } = getRouteAndStateFromUrl<T>(routes, url)
     return route.onEnter && hookCallee(route, state)(route.onEnter)
 }
 
