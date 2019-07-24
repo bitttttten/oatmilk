@@ -10,6 +10,8 @@ const Link = forwardRef<HTMLAnchorElement, ILinkProps>(
             queryParams,
             routeName,
             state,
+            prefix = '',
+            suffix = '',
             ...props
         },
         ref,
@@ -33,7 +35,12 @@ const Link = forwardRef<HTMLAnchorElement, ILinkProps>(
                 goTo(routeName, state, queryParams)
             }
         }
-        const href = getHref(routeName, state, queryParams)
+
+        const href = `${prefix}${getHref(
+            routeName,
+            state,
+            queryParams,
+        )}${suffix}`.trim()
 
         return (
             <a {...props} href={href} ref={ref} onClick={onClick}>

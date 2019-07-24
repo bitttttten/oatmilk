@@ -62,4 +62,6 @@ export interface ILinkProps
     routeName: TRouteName
     state?: TRouteState
     queryParams?: IQueryObject
+    suffix?: string
+    prefix?: string
 }

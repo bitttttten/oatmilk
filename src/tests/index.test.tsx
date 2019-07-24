@@ -59,6 +59,50 @@ describe('<Link>', () => {
         )
         expect(getByText(/link to 404/)).toBeTruthy()
     })
+    test('renders prefix and suffix', () => {
+        const { getByText } = render(
+            <Provider url='/' routes={routes}>
+                <Link routeName='user' state={{ id: 'bitttttten' }}>
+                    starter example
+                </Link>
+                <Link
+                    routeName='user'
+                    state={{ id: 'bitttttten' }}
+                    prefix='/nl'
+                    suffix='/profile'
+                >
+                    link to nl and profile
+                </Link>
+                <Link
+                    routeName='user'
+                    state={{ id: 'bitttttten' }}
+                    prefix='/en'
+                >
+                    link to en
+                </Link>
+                <Link
+                    routeName='user'
+                    state={{ id: 'bitttttten' }}
+                    suffix='/profile'
+                >
+                    link to profile
+                </Link>
+                <Link routeName='notFound'>link to 404</Link>
+            </Provider>,
+        )
+        expect(getByText(/starter example/).getAttribute('href')).toBe(
+            '/user/bitttttten',
+        )
+        expect(getByText(/link to nl and profile/).getAttribute('href')).toBe(
+            '/nl/user/bitttttten/profile',
+        )
+        expect(getByText(/link to en/).getAttribute('href')).toBe(
+            '/en/user/bitttttten',
+        )
+        expect(getByText(/link to profile/).getAttribute('href')).toBe(
+            '/user/bitttttten/profile',
+        )
+    })
     test('navigates from one view to another', async () => {
         const { getByText } = render(
             <Provider url='/' routes={routes}>

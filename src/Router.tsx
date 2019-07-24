@@ -137,10 +137,11 @@ export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
             )
         }
 
-        const url = deriveUrlFromPathAndState(route.path, state)
+        const url = deriveUrlFromPathAndState(route.path, state, queryParams)
         const historyState = {
             routeName: route.name,
             state,
+            queryParams,
             _from_oatmilk: true,
         }
         if (url !== window.location.pathname) {
@@ -153,7 +154,7 @@ export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
                 `${url}${window.location.search}${window.location.hash}`,
             )
         }
-    }, [route.name, state])
+    }, [route.name, routes, route.path, route.view, queryParams, state])
 
     useEffect(() => {
         if (SERVER) return
