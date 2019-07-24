@@ -71,19 +71,31 @@ export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
     })
 
     const goTo = useCallback(
-        async (toRouteName: TRouteName, toState: TRouteState = {}, toQuery: TQuery = {}) => {
+        async (
+            toRouteName: TRouteName,
+            toState: TRouteState = {},
+            toQuery: TQuery = {},
+            withPrefix?: string
+        ) => {
             const toRoute = getRouteByName(routes, toRouteName)
 
             if (!toRoute) {
                 throw new Error(`[oatmilk] Route ${toRouteName} does not exist`)
             }
 
+            // allows overriding of path
+            // which helps when many urls share the same view
+            if (withPrefix) {
+                toRoute.path = `${withPrefix}${toRoute.path}`
+            }
+
             await Promise.all([
                 route.onBeforeExit &&
                     // @ts-ignore
                     hookCallee(route, state, queryParams)(route.onBeforeExit),
-                // @ts-ignore
-                onBeforeExit && hookCallee(route, state, queryParams)(onBeforeExit),
+                onBeforeExit &&
+                    // @ts-ignore
+                    hookCallee(route, state, queryParams)(onBeforeExit),
             ])
 
             if (onEnter) {

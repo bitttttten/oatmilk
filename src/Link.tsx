@@ -32,7 +32,7 @@ const Link = forwardRef<HTMLAnchorElement, ILinkProps>(
                 !e.shiftKey
             ) {
                 e.preventDefault()
-                goTo(routeName, state, queryParams)
+                goTo(routeName, state, queryParams, prefix)
             }
         }
 
