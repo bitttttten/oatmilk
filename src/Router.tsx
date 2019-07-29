@@ -109,7 +109,7 @@ export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
 
             setData({ route: toRoute, state: toState, queryParams: toQuery })
         },
-        [routes, route, state],
+        [routes, route, hookCallee, state],
     )
 
     const getHref = useCallback(
