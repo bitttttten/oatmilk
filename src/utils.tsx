@@ -91,6 +91,6 @@ export function parseObjectIntoQueryString(queryString?: IQueryObject) {
         return ''
     }
     return `?${Object.keys(queryString)
-        .map(key => key + '=' + queryString[key])
+        .map(key => (queryString[key] ? key + '=' + queryString[key] : key))
         .join('&')}`
 }
