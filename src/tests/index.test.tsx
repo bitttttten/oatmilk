@@ -1,4 +1,4 @@
-import 'jest-dom/extend-expect'
+import '@testing-library/jest-dom/extend-expect'
 import React, { Fragment } from 'react'
 import {
     act,
@@ -152,6 +152,9 @@ describe('<Link>', () => {
         )
     })
     test('throws error with an invalid route', () => {
+        jest.spyOn(global.console, 'error').mockImplementationOnce(() =>
+            jest.fn(),
+        )
         expect(() => {
             render(
                 <Provider url='/' routes={routes}>
@@ -159,6 +162,7 @@ describe('<Link>', () => {
                 </Provider>,
             )
         }).toThrow()
+        expect(global.console.error).toHaveBeenCalledTimes(2)
     })
     test('query params match', async () => {
         function Component() {
