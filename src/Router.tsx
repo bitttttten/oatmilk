@@ -173,6 +173,7 @@ export function Provider<HookCallee = TDefaultHookCallee, Hook = THook>({
 
         function onUserNavigating({ state: historyState }: PopStateEvent) {
             if (
+                historyState &&
                 historyState.routeName &&
                 historyState.state &&
                 historyState._from_oatmilk
