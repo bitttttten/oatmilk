@@ -21,9 +21,9 @@ exports.method = function method(request, h) {
 }
 ```
 
-### lambda
+### AWS and Netlify lambdas
 
-lambdas strip the query params from the path into an object. No issue here, since oatmilk is only suited to parse the path of the URL.
+AWS and Netlify lambdas strip the query params from the path into an object. No issue here, since oatmilk is only suited to parse the path of the URL.
 
 ```js
 exports.handler = function handler({ path }) {
