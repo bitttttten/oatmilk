@@ -9,7 +9,7 @@
 
 ## Introduction
 
-oatmilk is a minimal routing library for React. Suspsense ready, SSR friendly, and flexible.
+oatmilk is a minimal routing library for React.
 
 ## Docs
 
@@ -185,15 +185,11 @@ ReactDOM.render(
 
 ### Hook callee
 
-**Note:** This hook callee API is a stand in until async react has been shipped. oatmilk is Suspsense ready and friendly, and once async react has been released it is recommended to use React hook based APIs for data fetching with server side rendering. Since we are not there yet, this is the API we are using temporarily!
-
 oatmilk ships with a way to customise how the above hooks are called with a `hookCallee` function. Use this method to inject your own callee to completely customise the transition hooks. This can help with server side rendering by passing in a store on the server and client. Learn about that in [the server rendering docs](https://github.com/bitttttten/oatmilk/blob/master/docs/server-rendering.md).
 
 ## Decoupled
 
-oatmilk is state first, and everything else is derived from this. The current route is held in state and effects like updating the URL, are managed after the fact.
-
-Decoupling your state and data fetching from your view helps you keep a declarative approach to your codebase. It also makes reasoning and testing simplier, and greatly reduces the complexity of server rendering and pre-fetching data.
+oatmilk is state first, and everything else is derived from this. The current route is held in state and effects like updating the URL, are managed after the fact. Decoupling your state and data fetching from your view helps you keep a declarative approach to your codebase. It also makes reasoning and testing simplier, and greatly reduces the complexity of server rendering and pre-fetching data.
 
 ## Credits
 
