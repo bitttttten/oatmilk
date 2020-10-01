@@ -21,6 +21,9 @@ import {
 import { useOatmilk } from '../hooks'
 
 afterEach(cleanup)
+afterEach(() => {
+    jest.clearAllMocks()
+})
 
 const homeRoute: IRoute = {
     name: 'home',
