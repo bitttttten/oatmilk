@@ -21,6 +21,9 @@ import {
 import { useOatmilk } from '../hooks'
 
 afterEach(cleanup)
+afterEach(() => {
+    jest.clearAllMocks()
+})
 
 const homeRoute: IRoute = {
     name: 'home',
@@ -152,9 +155,7 @@ describe('<Link>', () => {
         )
     })
     test('throws error with an invalid route', () => {
-        jest.spyOn(global.console, 'error').mockImplementationOnce(() =>
-            jest.fn(),
-        )
+        jest.spyOn(global.console, 'error').mockImplementation(() => jest.fn())
         expect(() => {
             render(
                 <Provider url='/' routes={routes}>
